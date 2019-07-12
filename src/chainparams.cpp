@@ -110,18 +110,34 @@ public:
         nPruneAfterHeight = 100000;
         m_assumed_blockchain_size = 240;
         m_assumed_chain_state_size = 3;
+      
+        genesis = CreateGenesisBlock(1558627231, 0, 0x1d00ffff, 1, 50 * COIN);
 
+        //updated by sangjun
         LDPC *ldpc = new LDPC;
-        genesis = CreateGenesisBlock(1558627231, 1, 0x1d00ffff, 1, 50 * COIN);
-        while (!ldpc->CheckProofOfWork(genesis.GetHash(), genesis.hashPrevBlock, genesis.nBits)) {
-            ++genesis.nNonce;
+        ldpc->set_difficulty(1);
+        ldpc->initialization();
+        ldpc->generate_seed((char*)((genesis.hashPrevBlock.ToString() + genesis.hashMerkleRoot.ToString()).c_str()));
+        ldpc->generate_H();
+        ldpc->generate_Q();             
+        while(1)
+        {            
+            ldpc->generate_hv((unsigned char*)genesis.GetHash().ToString().c_str());            
+            ldpc->decoding();
+            if (ldpc->decision())
+                break;                    
+            genesis.nNonce++; 
             assert(genesis.nNonce);
         }
-
-        // std::cout << "mainnet n: " << genesis.nNonce << " Hash: " << genesis.GetHash().ToString() << std::endl;
+        delete ldpc;
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("fe1b954fadf6da0c8b622024b58482edff1a805792d118714ffdb40bd7f6497d"));
-        assert(genesis.hashMerkleRoot == uint256S("15d2f927fe3eafe88ce0b4ccf267727ed306295051339a16e0b95067e65bead8"));
+        std::cout << genesis.GetHash().ToString() << std::endl;
+        
+        assert(consensus.hashGenesisBlock == uint256S("6cb5897daa6e48a1e00e71d926f1db1794dd247dd1388b8eacea432dd2199373"));
+       assert(    genesis.hashMerkleRoot == uint256S("15d2f927fe3eafe88ce0b4ccf267727ed306295051339a16e0b95067e65bead8"));        
+        
+        
+        printf("At minnet: Genesis block generation ok\n");
 
         // Note that of those which support the service bits prefix, most only support a subset of
         // possible options.
@@ -222,25 +238,37 @@ public:
         m_assumed_blockchain_size = 30;
         m_assumed_chain_state_size = 2;
 
+        genesis = CreateGenesisBlock(1558627231, 0, 0x1d00ffff, 1, 50 * COIN);
+
+        //updated by sangjun
         LDPC *ldpc = new LDPC;
-        genesis = CreateGenesisBlock(1560518777, 1, 0x1d00ffff, 1, 50 * COIN);
-        while (!ldpc->CheckProofOfWork(genesis.GetHash(), genesis.hashPrevBlock, genesis.nBits)) {
-            ++genesis.nNonce;
+        ldpc->set_difficulty(1);
+        ldpc->initialization();
+        ldpc->generate_seed((char*) ((genesis.hashPrevBlock.ToString() + genesis.hashMerkleRoot.ToString()).c_str()));
+        ldpc->generate_H();
+        ldpc->generate_Q();
+        while (1) {
+            ldpc->generate_hv((unsigned char*) genesis.GetHash().ToString().c_str());
+            ldpc->decoding();
+            if (ldpc->decision())
+                break;
+            genesis.nNonce++;
             assert(genesis.nNonce);
         }
-        
-        // std::cout << "testnet n: " << genesis.nNonce << " Hash: " << genesis.GetHash().ToString() << std::endl;
+        delete ldpc;
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("43ca60a124681075949cf2296e7fab4fc30740892cf1409626a8a90629cbb988"));
-        assert(genesis.hashMerkleRoot == uint256S("15d2f927fe3eafe88ce0b4ccf267727ed306295051339a16e0b95067e65bead8"));
-
+        assert(consensus.hashGenesisBlock == uint256S("6cb5897daa6e48a1e00e71d926f1db1794dd247dd1388b8eacea432dd2199373"));
+        assert(    genesis.hashMerkleRoot == uint256S("15d2f927fe3eafe88ce0b4ccf267727ed306295051339a16e0b95067e65bead8"));
+        
+        printf("At test: Genesis block generation ok\n");
+              
         vFixedSeeds.clear();
         vSeeds.clear();
         // nodes with support for servicebits filtering should be at the top
-        vSeeds.emplace_back("testnet-seed.bitcoin.jonasschnelli.ch");
-        vSeeds.emplace_back("seed.tbtc.petertodd.org");
-        vSeeds.emplace_back("seed.testnet.bitcoin.sprovoost.nl");
-        vSeeds.emplace_back("testnet-seed.bluematt.me"); // Just a static list of stable node(s), only supports x9
+       // vSeeds.emplace_back("testnet-seed.bitcoin.jonasschnelli.ch");
+       // vSeeds.emplace_back("seed.tbtc.petertodd.org");
+       // vSeeds.emplace_back("seed.testnet.bitcoin.sprovoost.nl");
+       // vSeeds.emplace_back("testnet-seed.bluematt.me"); // Just a static list of stable node(s), only supports x9
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,111);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,196);
@@ -253,8 +281,8 @@ public:
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_test, pnSeed6_test + ARRAYLEN(pnSeed6_test));
 
         // Todo: Remove
-        vFixedSeeds.clear();
-        vSeeds.clear();
+       // vFixedSeeds.clear();
+      //  vSeeds.clear();
 
         fDefaultConsistencyChecks = false;
         fRequireStandard = false;
@@ -263,17 +291,17 @@ public:
 
         checkpointData = {
             {
-                {0, uint256S("43ca60a124681075949cf2296e7fab4fc30740892cf1409626a8a90629cbb988")},
+                {0, uint256S("6cb5897daa6e48a1e00e71d926f1db1794dd247dd1388b8eacea432dd2199373")},
             }
         };
 
         chainTxData = ChainTxData{
             // Data from rpc: getchaintxstats 4096 0000000000000037a8cd3e06cd5edbfe9dd1dbcc5dacab279376ef7cfc2b4c75
-            /* nTime    */ 1558627231,
-            /* nTxCount */ 0,
-            /* dTxRate  */ 0.00
+            /* nTime    */ 0,//1558627231,
+            /* nTxCount */ 0,//0,
+            /* dTxRate  */ 0//0.00
         };
-
+      
         /* enable fallback fee on testnet */
         m_fallback_fee_enabled = true;
     }
@@ -325,18 +353,33 @@ public:
         m_assumed_chain_state_size = 0;
 
         UpdateVersionBitsParametersFromArgs(args);
+        
+        genesis = CreateGenesisBlock(1558627231, 0, 0x1d00ffff, 1, 50 * COIN);
 
+        //updated by sangjun
         LDPC *ldpc = new LDPC;
-        genesis = CreateGenesisBlock(1560519259, 0, 0x207fffff, 1, 50 * COIN);
-        while (!ldpc->CheckProofOfWork(genesis.GetHash(), genesis.hashPrevBlock, genesis.nBits)) {
-            ++genesis.nNonce;
+        ldpc->set_difficulty(1);
+        ldpc->initialization();
+        ldpc->generate_seed((char*)((genesis.hashPrevBlock.ToString() + genesis.hashMerkleRoot.ToString()).c_str()));
+        ldpc->generate_H();
+        ldpc->generate_Q();             
+        while(1)
+        {            
+            ldpc->generate_hv((unsigned char*)genesis.GetHash().ToString().c_str());            
+            ldpc->decoding();
+            if (ldpc->decision())
+                break;                    
+            genesis.nNonce++; 
             assert(genesis.nNonce);
         }
-
-        // std::cout << "regtest n: " << genesis.nNonce << " Hash: " << genesis.GetHash().ToString() << std::endl;
+        delete ldpc;
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("07b8d2650524f9665b0a47909d2779da07d807df5b7f997859e6004956d6b3e0"));
-        assert(genesis.hashMerkleRoot == uint256S("15d2f927fe3eafe88ce0b4ccf267727ed306295051339a16e0b95067e65bead8"));
+        std::cout << genesis.GetHash().ToString() << std::endl;
+        
+        assert(consensus.hashGenesisBlock == uint256S("6cb5897daa6e48a1e00e71d926f1db1794dd247dd1388b8eacea432dd2199373"));
+        assert(    genesis.hashMerkleRoot == uint256S("15d2f927fe3eafe88ce0b4ccf267727ed306295051339a16e0b95067e65bead8"));
+        
+        printf("At regtest: Genesis block generation ok\n");
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.
@@ -347,7 +390,7 @@ public:
 
         checkpointData = {
             {
-                {0, uint256S("07b8d2650524f9665b0a47909d2779da07d807df5b7f997859e6004956d6b3e0")},
+                {0, uint256S("6cb5897daa6e48a1e00e71d926f1db1794dd247dd1388b8eacea432dd2199373")},
             }
         };
 

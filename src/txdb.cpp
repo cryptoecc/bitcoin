@@ -273,9 +273,12 @@ bool CBlockTreeDB::LoadBlockIndexGuts(const Consensus::Params& consensusParams, 
                 pindexNew->nNonce         = diskindex.nNonce;
                 pindexNew->nStatus        = diskindex.nStatus;
                 pindexNew->nTx            = diskindex.nTx;
+                
 
 #if 1
-                if (!CheckProofOfWork(pindexNew->GetBlockHash(), diskindex.hashPrev, pindexNew->nBits))
+                printf("\ntxdb part\n");
+                printf("nHeight : %d\n",pindexNew->nHeight);
+                if (!CheckProofOfWork(pindexNew->GetBlockHeader()))
                     return error("%s: CheckProofOfWork failed: %s", __func__, pindexNew->ToString());
 #else
                 if (!CheckProofOfWork(pindexNew->GetBlockHash(), pindexNew->nBits, consensusParams))

@@ -90,9 +90,38 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params&
 
     return true;
 }
-
-bool CheckProofOfWork(uint256 currHash, uint256 prevHash, unsigned int nBits)
+/*
+bool CheckProofOfWork(CBlock& block)
 {
-  LDPC *ldpc = new LDPC;
-  return ldpc->CheckProofOfWork(currHash, prevHash, nBits);
+    LDPC *ldpc = new LDPC;
+    ldpc->set_difficulty(1);
+    ldpc->initialization();
+    ldpc->generate_seed((char*)((block.hashPrevBlock.ToString() + block.hashMerkleRoot.ToString()).c_str()));
+    ldpc->generate_H();
+    ldpc->generate_Q();             
+    ldpc->generate_hv((unsigned char*)block.GetHash().ToString().c_str());
+    ldpc->decoding();
+    if (!ldpc->decision())
+        return false;
+    return true;
+}
+*/
+bool CheckProofOfWork(CBlockHeader block)
+{
+    printf("\nnonce : %d\n",block.nNonce);
+    std::cout  << block.GetHash().ToString() << std::endl;
+    std::cout  << block.hashPrevBlock.ToString() << std::endl;
+    std::cout  << block.hashMerkleRoot.ToString() << std::endl;
+    
+    LDPC *ldpc = new LDPC;
+    ldpc->set_difficulty(1);
+    ldpc->initialization();
+    ldpc->generate_seed((char*)((block.hashPrevBlock.ToString() + block.hashMerkleRoot.ToString()).c_str()));
+    ldpc->generate_H();
+    ldpc->generate_Q();             
+    ldpc->generate_hv((unsigned char*)block.GetHash().ToString().c_str());
+    ldpc->decoding();
+    if (ldpc->decision())
+        return true;
+    return false;   
 }

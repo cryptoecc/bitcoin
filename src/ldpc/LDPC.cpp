@@ -13,32 +13,32 @@ LDPC::LDPC()
 }
 LDPC::~LDPC()
 {
-  Delete_2D_Array((void**)this->H, this->m);
-  Delete_2D_Array((void**)this->col_in_row, this->wr);
-  Delete_2D_Array((void**)this->row_in_col, this->wc);
+  Delete_2D_Array(this->H, this->m);
+  Delete_2D_Array(this->col_in_row, this->wr);
+  Delete_2D_Array(this->row_in_col, this->wc);
 
-  Delete_2D_Array((void**)this->LRqtl, this->n);
-  Delete_2D_Array((void**)this->LRrtl, this->n);
-  Delete_1D_Array((void*)this->LRpt);
-  Delete_1D_Array((void*)this->LRft);
+  Delete_2D_Array(this->LRqtl, this->n);
+  Delete_2D_Array(this->LRrtl, this->n);
+  Delete_1D_Array(this->LRpt);
+  Delete_1D_Array(this->LRft);
 
-  Delete_1D_Array((void*)this->hash_vector);
-  Delete_1D_Array((void*)this->output_word);
+  Delete_1D_Array(this->hash_vector);
+  Delete_1D_Array(this->output_word);
 }
 
 void LDPC::decoding()
 {
   double temp3, temp_sign, sign, magnitude;
-  memset(this->output_word, NULL, sizeof(int)*this->n);
+  memset(this->output_word, 0, sizeof(int)*this->n);
 
   // Initialization
   for (int i = 0; i < this->n; i++)
   {
-    memset(this->LRqtl[i], NULL, sizeof(double)*this->m);
-    memset(this->LRrtl[i], NULL, sizeof(double)*this->m);
+    memset(this->LRqtl[i], 0, sizeof(double)*this->m);
+    memset(this->LRrtl[i], 0, sizeof(double)*this->m);
     this->LRft[i] = log((1 - this->cross_err) / (this->cross_err))*(double)(this->hash_vector[i] * 2 - 1);
   }
-  memset(this->LRpt, NULL, sizeof(double)*this->n);
+  memset(this->LRpt, 0, sizeof(double)*this->n);
 
   int i, k, l, m, ind, t, mp;
   //Bit to Check Node Messages --> LRqtl
@@ -99,53 +99,47 @@ void LDPC::decoding()
       this->output_word[i] = 0;
   }
 }
-int  LDPC::generate_seed(char phv[])
+int  LDPC::generate_seed(char phv_with_mtv[])
 {
+  /* We randomly generate a seed value using both the previous hash value and the current merkle tree value. */
+    
   int sum = 0, i = 0;
-  while (i < strlen(phv)) {
-    sum += phv[i++];
+  while (i < strlen(phv_with_mtv)) {
+    sum += phv_with_mtv[i++];
   }
 
   this->seed = sum;
   return sum;
 }
 
-void LDPC::generate_hv(const unsigned char header_with_nonce[])
+void LDPC::generate_hv(const unsigned char hash_value[])
 {
-  unsigned long input_size = strlen((char *)header_with_nonce);
-  memset((void*)this->hash_vector, NULL, sizeof(unsigned char)*this->n);
-  memset((void*)this->tmp_hash_vector, NULL, sizeof(unsigned char)*32);
-
-  if (this->n <= 256)
-  {
-    SHA256_CTX ctx;
-    memset((void*)&ctx, NULL, sizeof(SHA256_CTX));
-    sha256_init(&ctx);
-    sha256_update(&ctx, header_with_nonce, input_size);
-    sha256_final(&ctx, this->tmp_hash_vector);
-  }
-  else
-  {
-    /*
-      This section is for a case in which the size of a hash vector is larger than 256.
-      This section will be implemented soon.
-    */
-  }
-
-  /*
-  transform the constructed hexadecimal array into an binary arry
-  ex) FE01 => 11111110000 0001
-  */
-  for (int i = 0; i < this->n / 8; i++)
-  {
-    int decimal = (int)this->tmp_hash_vector[i];
-    for (int j = 7; j >= 0; j--)
+    memset(this->hash_vector, 0, sizeof(int)*this->n);
+    int index = 0;
+    for (int i = 0; i < this->n/4; i++)
     {
-      this->hash_vector[j + 8 * (i)] = decimal % 2;
-      decimal = decimal / 2;
+        
+        switch(toupper(hash_value[i]))
+        {
+            case '0': hash_vector[index++] = 0; hash_vector[index++] = 0; hash_vector[index++] = 0; hash_vector[index++] = 0; break;
+            case '1': hash_vector[index++] = 0; hash_vector[index++] = 0; hash_vector[index++] = 0; hash_vector[index++] = 1; break;
+            case '2': hash_vector[index++] = 0; hash_vector[index++] = 0; hash_vector[index++] = 1; hash_vector[index++] = 0; break;
+            case '3': hash_vector[index++] = 0; hash_vector[index++] = 0; hash_vector[index++] = 1; hash_vector[index++] = 1; break;
+            case '4': hash_vector[index++] = 0; hash_vector[index++] = 1; hash_vector[index++] = 0; hash_vector[index++] = 0; break;
+            case '5': hash_vector[index++] = 0; hash_vector[index++] = 1; hash_vector[index++] = 0; hash_vector[index++] = 1; break;
+            case '6': hash_vector[index++] = 0; hash_vector[index++] = 1; hash_vector[index++] = 1; hash_vector[index++] = 0; break;
+            case '7': hash_vector[index++] = 0; hash_vector[index++] = 1; hash_vector[index++] = 1; hash_vector[index++] = 1; break;
+            case '8': hash_vector[index++] = 1; hash_vector[index++] = 0; hash_vector[index++] = 0; hash_vector[index++] = 0; break;
+            case '9': hash_vector[index++] = 1; hash_vector[index++] = 0; hash_vector[index++] = 0; hash_vector[index++] = 1; break;
+            case 'A': hash_vector[index++] = 1; hash_vector[index++] = 0; hash_vector[index++] = 1; hash_vector[index++] = 0; break;
+            case 'B': hash_vector[index++] = 1; hash_vector[index++] = 0; hash_vector[index++] = 1; hash_vector[index++] = 1; break; 
+            case 'C': hash_vector[index++] = 1; hash_vector[index++] = 1; hash_vector[index++] = 0; hash_vector[index++] = 0; break; 
+            case 'D': hash_vector[index++] = 1; hash_vector[index++] = 1; hash_vector[index++] = 0; hash_vector[index++] = 1; break;
+            case 'E': hash_vector[index++] = 1; hash_vector[index++] = 1; hash_vector[index++] = 1; hash_vector[index++] = 0; break;
+            case 'F': hash_vector[index++] = 1; hash_vector[index++] = 1; hash_vector[index++] = 1; hash_vector[index++] = 1; break;               
+        }
     }
-  }
-  memcpy(this->output_word, this->hash_vector, sizeof(int)*this->n);
+    memcpy(this->output_word, this->hash_vector, sizeof(int)*this->n);
 }
 bool LDPC::generate_H()
 {
@@ -178,9 +172,9 @@ bool LDPC::generate_H()
 bool LDPC::generate_Q()
 {
   for (int i = 0; i < this->wr; i++)
-    memset(this->col_in_row[i], NULL, sizeof(int)*this->m);
+    memset(this->col_in_row[i], 0, sizeof(int)*this->m);
   for (int i = 0; i < this->wc; i++)
-    memset(this->row_in_col[i], NULL, sizeof(int)*this->n);
+    memset(this->row_in_col[i], 0, sizeof(int)*this->n);
 
   int row_index = 0, col_index = 0;
   for (int i = 0; i < this->m; i++)
@@ -197,7 +191,8 @@ bool LDPC::generate_Q()
   return true;
 }
 
-bool LDPC::CheckProofOfWork(uint256 currHash, uint256 prevHash, unsigned int nBits) {
+/*
+  bool LDPC::CheckProofOfWork(uint256 currHash, uint256 prevHash, unsigned int nBits) {
   if (nBits) {
     this->set_difficulty(32, 3, 6);
   }
@@ -210,6 +205,7 @@ bool LDPC::CheckProofOfWork(uint256 currHash, uint256 prevHash, unsigned int nBi
   this->decoding();
   return this->decision();
 }
+*/
 
 void LDPC::print_word(const char name[], int type)
 {
@@ -333,19 +329,19 @@ bool LDPC::is_regular(int n, int wc, int wr)
 
 bool LDPC::initialization()
 {
-  /*
-  Delete_2D_Array((void**)this->H, this->m);
-  Delete_2D_Array((void**)this->col_in_row, this->wr);
-  Delete_2D_Array((void**)this->row_in_col, this->wc);
 
-  Delete_2D_Array((void**)this->LRqtl, this->n);
-  Delete_2D_Array((void**)this->LRrtl, this->n);
-  Delete_1D_Array((void*)this->LRpt);
-  Delete_1D_Array((void*)this->LRft);
+  Delete_2D_Array(this->H, this->m);
+  Delete_2D_Array(this->col_in_row, this->wr);
+  Delete_2D_Array(this->row_in_col, this->wc);
 
-  Delete_1D_Array((void*)this->hash_vector);
-  Delete_1D_Array((void*)this->output_word);
-  */
+  Delete_2D_Array(this->LRqtl, this->n);
+  Delete_2D_Array(this->LRrtl, this->n);
+  Delete_1D_Array(this->LRpt);
+  Delete_1D_Array(this->LRft);
+
+  Delete_1D_Array(this->hash_vector);
+  Delete_1D_Array(this->output_word);
+
 
   this->H = Allocate_2D_Array_Int(this->m, this->n, "No sufficient memory for H");
   this->col_in_row = Allocate_2D_Array_Int(this->wr, this->m, "No sufficient memory for Q1_col_in_row");

@@ -422,6 +422,7 @@ int GuiMain(int argc, char* argv[])
     util::WinCmdLineArgs winArgs;
     std::tie(argc, argv) = winArgs.get();
 #endif
+
     SetupEnvironment();
 
     std::unique_ptr<interfaces::Node> node = interfaces::MakeNode();
@@ -487,6 +488,7 @@ int GuiMain(int argc, char* argv[])
         help.showOrPrint();
         return EXIT_SUCCESS;
     }
+
 
     /// 5. Now that settings and translations are available, ask user for data directory
     // User language is set up: pick a data directory

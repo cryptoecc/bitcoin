@@ -31,6 +31,8 @@
 #include <memory>
 #include <stdint.h>
 
+#include <ldpc/LDPC.h>
+
 /**
  * Return average network hashes per second based on the last 'lookup' blocks,
  * or from the last difficulty change if 'lookup' is nonpositive.
@@ -122,10 +124,25 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
             IncrementExtraNonce(pblock, chainActive.Tip(), nExtraNonce);
         }
 #if 1
-        while (nMaxTries > 0 && pblock->nNonce < nInnerLoopCount && !CheckProofOfWork(pblock->GetHash(), pblock->hashPrevBlock, pblock->nBits)) {
+        printf("\nmining.cpp\n");
+        LDPC *ldpc = new LDPC;
+        ldpc->set_difficulty(1);
+        ldpc->initialization();
+        ldpc->generate_seed((char*)((pblock->hashPrevBlock.ToString() + pblock->hashMerkleRoot.ToString()).c_str()));
+        ldpc->generate_H();
+        ldpc->generate_Q();             
+
+        
+        while (nMaxTries > 0 && pblock->nNonce < nInnerLoopCount )
+        {
+            ldpc->generate_hv((unsigned char*)pblock->GetHash().ToString().c_str());
+            ldpc->decoding();
+            if ( ldpc->decision())
+                break;                               
             ++pblock->nNonce;
-            --nMaxTries;
+            --nMaxTries;                
         }
+        delete ldpc;
 #else
       while (nMaxTries > 0 && pblock->nNonce < nInnerLoopCount && !CheckProofOfWork(pblock->GetHash(), pblock->nBits, Params().GetConsensus())) {
           ++pblock->nNonce;

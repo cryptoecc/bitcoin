@@ -22,6 +22,8 @@
 
 #include <list>
 #include <vector>
+#include <ldpc/LDPC.h>
+
 
 static std::shared_ptr<CBlock> PrepareBlock(const CScript& coinbase_scriptPubKey)
 {
@@ -42,10 +44,32 @@ static CTxIn MineBlock(const CScript& coinbase_scriptPubKey)
     auto block = PrepareBlock(coinbase_scriptPubKey);
 
 #if 1
-    while (!CheckProofOfWork(block->GetHash(), block->hashPrevBlock, block->nBits)) {
+    //while (!CheckProofOfWork(block->GetHash(), block->hashPrevBlock, block->nBits)) {
+    //    ++block->nNonce;
+    //    assert(block->nNonce);
+   // }
+    printf("\nblock_assemble\n");
+    LDPC *ldpc = new LDPC;
+    ldpc->set_difficulty(1);
+    ldpc->initialization();
+    ldpc->generate_seed((char*) ((block->hashPrevBlock.ToString() + block->hashMerkleRoot.ToString()).c_str()));
+    ldpc->generate_H();
+    ldpc->generate_Q();
+
+
+    while (1) {
+        ldpc->generate_hv((unsigned char*) block->GetHash().ToString().c_str());
+        ldpc->decoding();
+        if (ldpc->decision())
+            break;
         ++block->nNonce;
         assert(block->nNonce);
     }
+    delete ldpc;
+    
+    
+    
+    
 #else
     while (!CheckProofOfWork(block->GetHash(), block->nBits, Params().GetConsensus())) {
         ++block->nNonce;
