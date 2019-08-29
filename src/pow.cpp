@@ -52,7 +52,6 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 
 unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nFirstBlockTime, const Consensus::Params& params)
 {
-    printf("call\n");
     if (params.fPowNoRetargeting)
         return pindexLast->nBits;
 
