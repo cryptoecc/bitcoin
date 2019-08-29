@@ -96,7 +96,7 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
      * 1./lpdc_level_table[14] = 195;
      * 1./lpdc_level_table[20] = 1288;
      *
-     * Then, the new level is 12.
+     * Then, the new level is 12..
      */
 
     int from_level = cur_level - 10, to_level = cur_level + 10, new_level;
