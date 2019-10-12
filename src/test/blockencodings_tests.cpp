@@ -21,8 +21,6 @@ struct RegtestingSetup : public TestingSetup {
 BOOST_FIXTURE_TEST_SUITE(blockencodings_tests, RegtestingSetup)
 
 static CBlock BuildBlockTestCase() {
-    
-    int level = 30;
     CBlock block;
     CMutableTransaction tx;
     tx.vin.resize(1);
@@ -34,8 +32,7 @@ static CBlock BuildBlockTestCase() {
     block.vtx[0] = MakeTransactionRef(tx);
     block.nVersion = 42;
     block.hashPrevBlock = InsecureRand256();
-    //block.nBits = 0x207fffff;
-    block.nBits = level;
+    block.nBits = 0x207fffff;
 
     tx.vin[0].prevout.hash = InsecureRand256();
     tx.vin[0].prevout.n = 0;
@@ -286,7 +283,6 @@ BOOST_AUTO_TEST_CASE(SufficientPreforwardRTTest)
 
 BOOST_AUTO_TEST_CASE(EmptyBlockRoundTripTest)
 {
-    int level = 30;
     CTxMemPool pool;
     CMutableTransaction coinbase;
     coinbase.vin.resize(1);
@@ -299,8 +295,7 @@ BOOST_AUTO_TEST_CASE(EmptyBlockRoundTripTest)
     block.vtx[0] = MakeTransactionRef(std::move(coinbase));
     block.nVersion = 42;
     block.hashPrevBlock = InsecureRand256();
-    //block.nBits = 0x207fffff;
-    block.nBits = level;
+    block.nBits = 0x207fffff;
 
     bool mutated;
     block.hashMerkleRoot = BlockMerkleRoot(block, &mutated);

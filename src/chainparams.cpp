@@ -78,8 +78,6 @@ public:
         consensus.powLimit = uint256S("00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetTimespan = 60 * 60; // 1 hour
         consensus.nPowTargetSpacing = 1 * 60; // 1 min
-        //consensus.nPowTargetTimespan = 14 * 24 * 60 * 60; // two weeks
-        //consensus.nPowTargetSpacing = 10 * 60; // 10 min
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 57; // 95% of 2016
@@ -150,7 +148,7 @@ public:
         consensus.hashGenesisBlock = genesis.GetHash();
         assert(consensus.hashGenesisBlock == uint256S("b77abb03a0a8a4f23a7380bf655af8312c4769c64fcbf335a08d598b13368f22"));
         assert(genesis.hashMerkleRoot == uint256S("15d2f927fe3eafe88ce0b4ccf267727ed306295051339a16e0b95067e65bead8"));
-	/*
+
         // Note that of those which support the service bits prefix, most only support a subset of
         // possible options.
         // This is fine at runtime as we'll fall back to using them as a oneshot if they don't support the
@@ -164,8 +162,6 @@ public:
         vSeeds.emplace_back("seed.btc.petertodd.org"); // Peter Todd, only supports x1, x5, x9, and xd
         vSeeds.emplace_back("seed.bitcoin.sprovoost.nl"); // Sjors Provoost
         vSeeds.emplace_back("dnsseed.emzy.de"); // Stephan Oeste
-	*/
-	vSeeds.emplace_back("ec2-13-54-124-19.ap-southeast-2.compute.amazonaws.com"); // miningtest-node-01 on AWS	
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,0);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,5);
@@ -176,6 +172,10 @@ public:
         bech32_hrp = "bc";
 
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_main, pnSeed6_main + ARRAYLEN(pnSeed6_main));
+
+        // Todo: Remove
+        vFixedSeeds.clear();
+        vSeeds.clear();
       
         fDefaultConsistencyChecks = false;
         fRequireStandard = true;
@@ -213,11 +213,9 @@ public:
         consensus.BIP65Height = 581885; // 00000000007f6655f22f98e72ed80d8b06dc761d5da09df0fa1dc4be4f861eb6
         consensus.BIP66Height = 330776; // 000000002104c8c45e99a8853285a3b592602a3ccde2b832481da85e9e4ba182
         consensus.powLimit = uint256S("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.nPowTargetTimespan = 60 * 60; // 1 hour
-        consensus.nPowTargetSpacing = 1 * 60; // 1 min
-        //consensus.nPowTargetTimespan = 14 * 24 * 60 * 60; // two weeks
-        //consensus.nPowTargetSpacing = 10 * 60;
-        consensus.fPowAllowMinDifficultyBlocks = false;
+        consensus.nPowTargetTimespan = 14 * 24 * 60 * 60; // two weeks
+        consensus.nPowTargetSpacing = 10 * 60;
+        consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1512; // 75% for testchains
         consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
@@ -340,12 +338,10 @@ public:
         consensus.BIP65Height = 1351; // BIP65 activated on regtest (Used in functional tests)
         consensus.BIP66Height = 1251; // BIP66 activated on regtest (Used in functional tests)
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.nPowTargetTimespan = 60 * 60; // 1 hour
-        consensus.nPowTargetSpacing = 1 * 60; // 1 min
-        //consensus.nPowTargetTimespan = 14 * 24 * 60 * 60; // two weeks
-        //consensus.nPowTargetSpacing = 10 * 60;
-        consensus.fPowAllowMinDifficultyBlocks = false;
-        consensus.fPowNoRetargeting = false;
+        consensus.nPowTargetTimespan = 14 * 24 * 60 * 60; // two weeks
+        consensus.nPowTargetSpacing = 10 * 60;
+        consensus.fPowAllowMinDifficultyBlocks = true;
+        consensus.fPowNoRetargeting = true;
         consensus.nRuleChangeActivationThreshold = 108; // 75% for testchains
         consensus.nMinerConfirmationWindow = 144; // Faster than normal for regtest (144 instead of 2016)
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;

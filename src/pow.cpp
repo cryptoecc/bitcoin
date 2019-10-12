@@ -72,7 +72,7 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
      *ret_difficulty is the number of expected iterations to solving next 2016 problems.
      *We have to find a level in which the number of expected iterations is firstly greather (less) than ret_difficulty.
      *To prevent dramastically change in level, we only consider +- 10 levels at the current level.
-     *In addition, note that ldpc_level_table.prob is alrady sorted, i.e., 
+     *In addition, note that ldpc_level_table.prob is alrady sorted, i.e.,
      *lpdc_table.prob[1] >  lpdc_table.prob[2] > lpdc_table.prob[3] > ... > lpdc_table.prob[MAX_LEVEL_DIFF]
      *Thus, the inverse of thems are also sorted, i.e.,
      *1./ldpc_table.prob[1] < 1./ldpc_table.prob[2] < 1./ldpc_table.prob[3] < ... < 1./ldpc_table.prob[MAX_LEVEL_DIFF]

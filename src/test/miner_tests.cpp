@@ -25,7 +25,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-#define DEBUG_NONCE 1
+#define DEBUG_NONCE 0
 
 BOOST_FIXTURE_TEST_SUITE(miner_tests, TestingSetup)
 
@@ -55,34 +55,34 @@ struct {
     unsigned char extranonce;
     unsigned int nonce;
 } blockinfo[] = {
-    {4, 0xca}, {2, 0x3c}, {1, 0x12}, {1, 0x63}, 
-    {2, 0x54}, {2, 0x31}, {1, 0x27}, {2, 0xa3}, 
-    {2, 0x80}, {1, 0x2e}, {1, 0x68}, {2, 0x1fa}, 
-    {2, 0x1e}, {1, 0x99}, {2, 0x42}, {2, 0x140}, 
-    {1, 0x59}, {2, 0x35}, {1, 0xbc}, {1, 0xb}, 
-    {3, 0x1d4}, {2, 0x175}, {2, 0xf}, {1, 0x11}, 
-    {2, 0x32}, {1, 0xe7}, {2, 0x80}, {2, 0x1e}, 
-    {2, 0x8e}, {2, 0x49}, {2, 0x2f}, {2, 0x88}, 
-    {1, 0x9b}, {2, 0x1d}, {2, 0x12}, {1, 0xa4}, 
-    {2, 0x106}, {1, 0x29}, {2, 0x50}, {1, 0x20}, 
-    {1, 0xd}, {3, 0x12f}, {2, 0xac}, {5, 0x9c}, 
-    {1, 0x4c}, {5, 0xc}, {1, 0xd7}, {1, 0xd6}, 
-    {1, 0x7b}, {2, 0x203}, {1, 0x15}, {1, 0x53}, 
-    {1, 0xec}, {1, 0xb}, {5, 0xa2}, {5, 0x4e}, 
-    {1, 0x4f}, {1, 0x17}, {6, 0x0}, {2, 0x13}, 
-    {2, 0x17}, {1, 0x19}, {1, 0x77}, {1, 0x148}, 
-    {2, 0x174}, {2, 0x2f}, {1, 0x4b}, {1, 0x2}, 
-    {1, 0xe}, {5, 0x15}, {5, 0x8}, {1, 0xec}, 
-    {1, 0x27}, {2, 0x21}, {2, 0x7a}, {1, 0x82}, 
-    {2, 0x5c}, {1, 0xe6}, {2, 0xc7}, {2, 0x1a}, 
-    {1, 0x52}, {1, 0x4e}, {1, 0x173}, {5, 0x15}, 
-    {1, 0x4}, {1, 0x30}, {1, 0x7}, {1, 0x65}, 
-    {1, 0x1}, {1, 0x20}, {1, 0xe0}, {2, 0x41}, 
-    {0, 0x51}, {1, 0xc5}, {2, 0xa2}, {2, 0x14}, 
-    {2, 0x27}, {1, 0x4f}, {1, 0x39}, {1, 0xff}, 
-    {1, 0x50}, {1, 0x7e}, {1, 0x85}, {5, 0x1a}, 
-    {2, 0x51}, {1, 0x3e}, {1, 0x63}, {1, 0xbb}, 
-    {2, 0x2}, {2, 0x148}, 
+    {4, 0x318}, {2, 0x8c}, {1, 0x7fc}, {1, 0x40b},
+    {2, 0xe6}, {2, 0x373}, {1, 0x1b}, {2, 0x437},
+    {2, 0x63}, {1, 0x3b}, {1, 0x2c5}, {2, 0x79a},
+    {2, 0x93}, {1, 0x20}, {2, 0x11b}, {2, 0xd6},
+    {1, 0x511}, {2, 0x7}, {1, 0x1bd}, {1, 0x7a},
+    {3, 0x66}, {2, 0x78}, {2, 0x124}, {1, 0x1f},
+    {2, 0x17}, {1, 0xa}, {2, 0x4df}, {2, 0xfc},
+    {2, 0x191}, {2, 0x25e}, {2, 0x1}, {2, 0x2a6},
+    {1, 0x21}, {2, 0x3}, {2, 0x17b}, {1, 0x44},
+    {2, 0xa2}, {1, 0xd1}, {2, 0x1f}, {1, 0x1e5},
+    {1, 0x28}, {3, 0xf0}, {2, 0x58}, {5, 0x1},
+    {1, 0x2e}, {5, 0x9d}, {1, 0x1b}, {1, 0xb9},
+    {1, 0xbf}, {2, 0x882}, {1, 0x54}, {1, 0x19b},
+    {1, 0x3}, {1, 0x203}, {5, 0xe5}, {5, 0x2b},
+    {1, 0x4e}, {1, 0x33}, {6, 0x760}, {2, 0x4c},
+    {2, 0xd0}, {1, 0x12}, {1, 0x1c6}, {1, 0x8e},
+    {2, 0x1e8}, {2, 0x91}, {1, 0x19d}, {1, 0x52},
+    {1, 0x125}, {5, 0x26b}, {5, 0x1}, {1, 0x132},
+    {1, 0x183}, {2, 0x87}, {2, 0xfe}, {1, 0x2d},
+    {2, 0x25}, {1, 0x76}, {2, 0x166}, {2, 0x95},
+    {1, 0x10f}, {1, 0x51}, {1, 0x3a}, {5, 0x79},
+    {1, 0x388}, {1, 0x8bc}, {1, 0x1b}, {1, 0x72},
+    {1, 0x4b}, {1, 0x98}, {1, 0x435}, {2, 0xb5},
+    {0, 0x1a7}, {1, 0x16}, {2, 0x5b}, {2, 0xc3},
+    {2, 0x15c}, {1, 0x136}, {1, 0x476}, {1, 0x43},
+    {1, 0x106}, {1, 0x144}, {1, 0x34}, {5, 0x15d},
+    {2, 0xbf}, {1, 0x3}, {1, 0x82}, {1, 0x1f},
+    {2, 0x51}, {2, 0xa4},
 };
 
 static CBlockIndex CreateBlockIndex(int nHeight)
@@ -218,7 +218,7 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
     TestMemPoolEntryHelper entry;
     entry.nFee = 11;
     entry.nHeight = 11;
-    
+
     fCheckpointsEnabled = false;
 
     // Simple block creation, nothing special yet:
@@ -248,12 +248,12 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
             if (txFirst.size() < 4)
                 txFirst.push_back(pblock->vtx[0]);
             pblock->hashMerkleRoot = BlockMerkleRoot(*pblock);
-            pblock->nNonce = blockinfo[i].nonce;       
+            pblock->nNonce = blockinfo[i].nonce;
         }
         std::shared_ptr<const CBlock> shared_pblock = std::make_shared<const CBlock>(*pblock);
 
 #if DEBUG_NONCE
-        pblock->nNonce = 0;
+        pblock->nNonce = 1;
         while (!CheckProofOfWork(pblock->GetBlockHeader(), Params().GetConsensus())) {
             ++pblock->nNonce;
         }
@@ -262,7 +262,7 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
         if (!((i + 1) % 4)) std::cout << std::endl;
         shared_pblock = std::make_shared<const CBlock>(*pblock);
 #endif
-        BOOST_WARN(ProcessNewBlock(chainparams, shared_pblock, true, nullptr));
+        BOOST_CHECK(ProcessNewBlock(chainparams, shared_pblock, true, nullptr));
         pblock->hashPrevBlock = pblock->GetHash();
     }
 
@@ -336,7 +336,7 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
     }
     BOOST_CHECK(pblocktemplate = AssemblerForTest(chainparams).CreateNewBlock(scriptPubKey));
     mempool.clear();
-    
+
     // orphan in mempool, template creation fails
     hash = tx.GetHash();
     mempool.addUnchecked(entry.Fee(LOWFEE).Time(GetTime()).FromTx(tx));
