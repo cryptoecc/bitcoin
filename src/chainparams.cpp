@@ -76,12 +76,12 @@ public:
         consensus.BIP65Height = 388381; // 000000000000000004c2b624ed5d7756c508d90fd0da2c7c679febfa6c4735f0
         consensus.BIP66Height = 363725; // 00000000000000000379eaa19dce8c9b722d46ae6a57c2f1a988119488b50931
         consensus.powLimit = uint256S("00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.nPowTargetTimespan = 60 * 60; // 1 hour
-        consensus.nPowTargetSpacing = 1 * 60; // 1 min
+        consensus.nPowTargetTimespan = 30 * 10; // 1 hour
+        consensus.nPowTargetSpacing = 1 * 10; // 1 min
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
-        consensus.nRuleChangeActivationThreshold = 57; // 95% of 2016
-        consensus.nMinerConfirmationWindow = 60; // nPowTargetTimespan / nPowTargetSpacing
+        consensus.nRuleChangeActivationThreshold = 27; // 95% of 2016
+        consensus.nMinerConfirmationWindow = 30; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
@@ -116,17 +116,13 @@ public:
         m_assumed_blockchain_size = 240;
         m_assumed_chain_state_size = 3;
 
-        int init_level = 10;
-        genesis = CreateGenesisBlock(1558627231, 399, init_level, 1, 50 * COIN);
+        int init_level = 1;
+        genesis = CreateGenesisBlock(1558627231, 1 , 0x1d00ffff, 1, 50 * COIN);
         printf("\nmainnet with level = %d\n",init_level);
         printf("set is constructed from %d to %d with step 2\n",ldpc_level_table[init_level].from, ldpc_level_table[init_level].to);
         printf("n : %d\t wc : %d\t wr : %d\n", ldpc_level_table[init_level].n, ldpc_level_table[init_level].wc, ldpc_level_table[init_level].wr);
-#if GENESIS
 
-        /* How to connect init_level with nbits?
-         * 1. header.nBits = init_level
-         *
-        */
+#if GENESIS
         LDPC *ldpc = new LDPC;
         ldpc->set_difficulty(init_level);
         ldpc->initialization();
@@ -146,22 +142,8 @@ public:
         std::cout << "mainnet n: " << genesis.nNonce << " Hash: " << genesis.GetHash().ToString() << std::endl;
 #endif
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("b77abb03a0a8a4f23a7380bf655af8312c4769c64fcbf335a08d598b13368f22"));
-        assert(genesis.hashMerkleRoot == uint256S("15d2f927fe3eafe88ce0b4ccf267727ed306295051339a16e0b95067e65bead8"));
-
-        // Note that of those which support the service bits prefix, most only support a subset of
-        // possible options.
-        // This is fine at runtime as we'll fall back to using them as a oneshot if they don't support the
-        // service bits we want, but we should get them updated to support all service bits wanted by any
-        // release ASAP to avoid it where possible.
-        vSeeds.emplace_back("seed.bitcoin.sipa.be"); // Pieter Wuille, only supports x1, x5, x9, and xd
-        vSeeds.emplace_back("dnsseed.bluematt.me"); // Matt Corallo, only supports x9
-        vSeeds.emplace_back("dnsseed.bitcoin.dashjr.org"); // Luke Dashjr
-        vSeeds.emplace_back("seed.bitcoinstats.com"); // Christian Decker, supports x1 - xf
-        vSeeds.emplace_back("seed.bitcoin.jonasschnelli.ch"); // Jonas Schnelli, only supports x1, x5, x9, and xd
-        vSeeds.emplace_back("seed.btc.petertodd.org"); // Peter Todd, only supports x1, x5, x9, and xd
-        vSeeds.emplace_back("seed.bitcoin.sprovoost.nl"); // Sjors Provoost
-        vSeeds.emplace_back("dnsseed.emzy.de"); // Stephan Oeste
+ //       assert(consensus.hashGenesisBlock == uint256S("b661d2b6290d3df44d2f5bfc9e220220a312e4b1bf8b2d95dc186931b3ed6a80"));
+//        assert(genesis.hashMerkleRoot == uint256S("15d2f927fe3eafe88ce0b4ccf267727ed306295051339a16e0b95067e65bead8"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,0);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,5);
@@ -248,8 +230,10 @@ public:
         m_assumed_blockchain_size = 30;
         m_assumed_chain_state_size = 2;
 
-        int init_level = 40;
-        genesis = CreateGenesisBlock(1560518777, 47471, init_level, 1, 50 * COIN);
+        uint32_t nBits = 0x1d00ffff;
+        int init_level = 10;
+	genesis = CreateGenesisBlock(1560518777,403 , nBits, 1, 50 * COIN);
+
         printf("\ntestnet with level = %d\n",init_level);
         printf("set is constructed from %d to %d with step 2\n",ldpc_level_table[init_level].from, ldpc_level_table[init_level].to);
         printf("n : %d\t wc : %d\t wr : %d\n", ldpc_level_table[init_level].n, ldpc_level_table[init_level].wc, ldpc_level_table[init_level].wr);
@@ -271,16 +255,12 @@ public:
             assert(genesis.nNonce);
         }
         delete ldpc;
-
         std::cout << "testnet n: " << genesis.nNonce << " Hash: " << genesis.GetHash().ToString() << std::endl;
 #endif
-
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("83432832323855c30a104d61467ecb339ffa988cb8abe420c67acb95667bdd42"));
-        assert(genesis.hashMerkleRoot == uint256S("15d2f927fe3eafe88ce0b4ccf267727ed306295051339a16e0b95067e65bead8"));
+//        assert(consensus.hashGenesisBlock == uint256S("34ac66ed64e5a26cd9122a569a5a599d970deecc813f1f798affbf2434525ca6"));
+//        assert(genesis.hashMerkleRoot == uint256S("15d2f927fe3eafe88ce0b4ccf267727ed306295051339a16e0b95067e65bead8"));
 
-        vFixedSeeds.clear();
-        vSeeds.clear();
         // nodes with support for servicebits filtering should be at the top
         vSeeds.emplace_back("testnet-seed.bitcoin.jonasschnelli.ch");
         vSeeds.emplace_back("seed.tbtc.petertodd.org");
@@ -371,8 +351,10 @@ public:
 
         UpdateVersionBitsParametersFromArgs(args);
 
-        int init_level = 30;
-        genesis = CreateGenesisBlock(1560519259, 746, init_level, 1, 50 * COIN);
+        uint32_t nBits = 0x1d00ffff;
+        int init_level = 10;
+        genesis = CreateGenesisBlock(1560519259,403 , nBits, 1, 50 * COIN);
+
         printf("\nregtest with level = %d\n",init_level);
         printf("set is constructed from %d to %d with step 2\n",ldpc_level_table[init_level].from, ldpc_level_table[init_level].to);
         printf("n : %d\t wc : %d\t wr : %d\n", ldpc_level_table[init_level].n, ldpc_level_table[init_level].wc, ldpc_level_table[init_level].wr);
@@ -394,12 +376,11 @@ public:
             assert(genesis.nNonce);
         }
         delete ldpc;
-        std::cout << "regtest n: " << genesis.nNonce << " Hash: " << genesis.GetHash().ToString() << std::endl;
+        std::cout << "mainnet n: " << genesis.nNonce << " Hash: " << genesis.GetHash().ToString() << std::endl;
 #endif
-
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("db20aafd0c626db7cf83b4b3d9ba0a024a862fdff203074e06aaa64e31619461"));
-        assert(genesis.hashMerkleRoot == uint256S("15d2f927fe3eafe88ce0b4ccf267727ed306295051339a16e0b95067e65bead8"));
+//      assert(consensus.hashGenesisBlock == uint256S("34ac66ed64e5a26cd9122a569a5a599d970deecc813f1f798affbf2434525ca6"));
+//      assert(genesis.hashMerkleRoot == uint256S("15d2f927fe3eafe88ce0b4ccf267727ed306295051339a16e0b95067e65bead8"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.

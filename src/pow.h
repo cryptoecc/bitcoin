@@ -22,8 +22,8 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
 /** Check whether a block hash satisfies the proof-of-work requirement specified by nBits */
 bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params&);
 
-#if LDPC_POW
 bool CheckProofOfWork(CBlockHeader block, const Consensus::Params&);
-#endif
+double GetDifficulty(uint32_t nBits);
+int GetLevelfromnBits(uint32_t nBits);
 
 #endif // BITCOIN_POW_H
