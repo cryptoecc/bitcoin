@@ -57,7 +57,7 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
  */
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
-    const char* pszTimestamp = "The Times 24/Map/2019 Theresa May abandons plan for vote on Brexit bill";
+    const char* pszTimestamp = "23/Oct/2019 GIST bitcoin ecc on Desecure blockchain";
     const CScript genesisOutputScript = CScript() << ParseHex("04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f") << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
@@ -76,12 +76,12 @@ public:
         consensus.BIP65Height = 388381; // 000000000000000004c2b624ed5d7756c508d90fd0da2c7c679febfa6c4735f0
         consensus.BIP66Height = 363725; // 00000000000000000379eaa19dce8c9b722d46ae6a57c2f1a988119488b50931
         consensus.powLimit = uint256S("00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.nPowTargetTimespan = 30 * 10; // 1 hour
-        consensus.nPowTargetSpacing = 1 * 10; // 1 min
+        consensus.nPowTargetTimespan = 100 * 2 * 60;
+        consensus.nPowTargetSpacing = 2 * 60; // 2 min
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
-        consensus.nRuleChangeActivationThreshold = 27; // 95% of 2016
-        consensus.nMinerConfirmationWindow = 30; // nPowTargetTimespan / nPowTargetSpacing
+        consensus.nRuleChangeActivationThreshold = 95; // 95% of 2016
+        consensus.nMinerConfirmationWindow = 100; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
@@ -116,8 +116,8 @@ public:
         m_assumed_blockchain_size = 240;
         m_assumed_chain_state_size = 3;
 
-        int init_level = 1;
-        genesis = CreateGenesisBlock(1558627231, 1 , 0x1d00ffff, 1, 50 * COIN);
+        int init_level = 51;
+        genesis = CreateGenesisBlock(1571809160, 1, 0x1b01cc26, 1, 50 * COIN);
         printf("\nmainnet with level = %d\n",init_level);
         printf("set is constructed from %d to %d with step 2\n",ldpc_level_table[init_level].from, ldpc_level_table[init_level].to);
         printf("n : %d\t wc : %d\t wr : %d\n", ldpc_level_table[init_level].n, ldpc_level_table[init_level].wc, ldpc_level_table[init_level].wr);
@@ -140,14 +140,13 @@ public:
         }
         delete ldpc;
         std::cout << "mainnet n: " << genesis.nNonce << " Hash: " << genesis.GetHash().ToString() << std::endl;
+	std::cout << " Merkle: " << genesis.hashMerkleRoot.ToString() << std::endl;
 #endif
         consensus.hashGenesisBlock = genesis.GetHash();
-<<<<<<< HEAD
- //       assert(consensus.hashGenesisBlock == uint256S("b661d2b6290d3df44d2f5bfc9e220220a312e4b1bf8b2d95dc186931b3ed6a80"));
-//        assert(genesis.hashMerkleRoot == uint256S("15d2f927fe3eafe88ce0b4ccf267727ed306295051339a16e0b95067e65bead8"));
-=======
-        assert(consensus.hashGenesisBlock == uint256S("b77abb03a0a8a4f23a7380bf655af8312c4769c64fcbf335a08d598b13368f22"));
-        assert(genesis.hashMerkleRoot == uint256S("15d2f927fe3eafe88ce0b4ccf267727ed306295051339a16e0b95067e65bead8"));
+//      assert(consensus.hashGenesisBlock == uint256S("b661d2b6290d3df44d2f5bfc9e220220a312e4b1bf8b2d95dc186931b3ed6a80"));
+//      assert(genesis.hashMerkleRoot == uint256S("15d2f927fe3eafe88ce0b4ccf267727ed306295051339a16e0b95067e65bead8"));
+        assert(consensus.hashGenesisBlock == uint256S("727667a6f70ca7288d6589c1789e1d1b78675ec64767b9beadb8ed7506a379cf"));
+        assert(genesis.hashMerkleRoot == uint256S("222dad3c0da9678bc38331e8a88387cf7ce2e31c9b69510a1291768b4917ce75"));
 
         // Note that of those which support the service bits prefix, most only support a subset of
         // possible options.
@@ -164,9 +163,8 @@ public:
         vSeeds.emplace_back("seed.bitcoin.sprovoost.nl"); // Sjors Provoost
         vSeeds.emplace_back("dnsseed.emzy.de"); // Stephan Oeste
         */
-        vSeeds.emplace_back("ec2-52-78-78-152.ap-northeast-2.compute.amazonaws.com"); // gist-nodeserver-01 on AWS
-        vSeeds.emplace_back("ec2-15-164-77-118.ap-northeast-2.compute.amazonaws.com"); // gist-nodeserver-02 on AWS
->>>>>>> e0c7b5999bfd9794568e716ef0677c1c6604d776
+
+        vSeeds.emplace_back("ec2-13-209-97-152.ap-northeast-2.compute.amazonaws.com"); // NewDifficultyModel-S2
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,0);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,5);
@@ -178,13 +176,14 @@ public:
 
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_main, pnSeed6_main + ARRAYLEN(pnSeed6_main));
 
+
         fDefaultConsistencyChecks = false;
         fRequireStandard = true;
         fMineBlocksOnDemand = false;
 
         checkpointData = {
             {
-                { 0, uint256S("3ed33a90a761ef8486a4b7b41842fe3d6a35a31d5094373f271bcaec197ed100")},
+                { 0, uint256S("727667a6f70ca7288d6589c1789e1d1b78675ec64767b9beadb8ed7506a379cf")},
             }
         };
 

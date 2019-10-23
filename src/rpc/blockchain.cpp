@@ -81,6 +81,22 @@ double GetDifficulty(const CBlockIndex* blockindex)
     return dDiff;
 }
 
+int GetLevelfromnBits(const CBlockIndex* blockindex)
+{
+    int level = 1;
+    double dDiff = 0.0, log_dDiff = 0.0;
+    dDiff = GetDifficulty(blockindex);
+    log_dDiff = log2(dDiff);
+    level = floor(log_dDiff/0.3) + 1;
+
+    if ( level >= 380 )
+            level = 380;
+    if (level <= 1 )
+            level = 1;
+
+    return level;
+}
+
 static int ComputeNextBlockAndDepth(const CBlockIndex* tip, const CBlockIndex* blockindex, const CBlockIndex*& next)
 {
     next = tip->GetAncestor(blockindex->nHeight + 1);
@@ -109,6 +125,7 @@ UniValue blockheaderToJSON(const CBlockIndex* tip, const CBlockIndex* blockindex
     result.pushKV("difficulty", GetDifficulty(blockindex));
     result.pushKV("chainwork", blockindex->nChainWork.GetHex());
     result.pushKV("nTx", (uint64_t)blockindex->nTx);
+    result.pushKV("level", GetLevelfromnBits(blockindex));
 
     if (blockindex->pprev)
         result.pushKV("previousblockhash", blockindex->pprev->GetBlockHash().GetHex());

@@ -54,7 +54,9 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
 {
     if (params.fPowNoRetargeting)
         return pindexLast->nBits;
-  
+ 
+
+    printf("CalculateNextWorkRequired: Height (before): %s\n", pindexLast->nHeight);
     printf("curt_level = %d\n",GetLevelfromnBits(pindexLast->nBits));
 
     int64_t nActualTimespan = pindexLast->GetBlockTime() - nFirstBlockTime;
