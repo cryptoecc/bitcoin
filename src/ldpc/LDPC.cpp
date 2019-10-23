@@ -112,6 +112,8 @@ void LDPC::generate_seeds(uint64_t hash)
         this->seeds.push_back(static_cast<uint32_t>((hash & mask) >> (i * 4)));
         mask = mask << 4;
     }
+    uint64_t tmp = 0x8be330edbd38090f3d2a7fcf3cfb43939be56b667ccafbdb7cf0c848c96b8ff9;
+    this->seeds.push_back(static_cast<uint32_t>(tmp));
 }
 
 void LDPC::generate_hv(const unsigned char hash_value[])
