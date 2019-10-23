@@ -116,8 +116,8 @@ public:
         m_assumed_blockchain_size = 240;
         m_assumed_chain_state_size = 3;
 
-        int init_level = 51;
-        genesis = CreateGenesisBlock(1571809160, 1, 0x1b01cc26, 1, 50 * COIN);
+        int init_level = 96;
+        genesis = CreateGenesisBlock(1571809160, 1, 0x1b00000b, 1, 50 * COIN);
         printf("\nmainnet with level = %d\n",init_level);
         printf("set is constructed from %d to %d with step 2\n",ldpc_level_table[init_level].from, ldpc_level_table[init_level].to);
         printf("n : %d\t wc : %d\t wr : %d\n", ldpc_level_table[init_level].n, ldpc_level_table[init_level].wc, ldpc_level_table[init_level].wr);
@@ -145,7 +145,7 @@ public:
         consensus.hashGenesisBlock = genesis.GetHash();
 //      assert(consensus.hashGenesisBlock == uint256S("b661d2b6290d3df44d2f5bfc9e220220a312e4b1bf8b2d95dc186931b3ed6a80"));
 //      assert(genesis.hashMerkleRoot == uint256S("15d2f927fe3eafe88ce0b4ccf267727ed306295051339a16e0b95067e65bead8"));
-        assert(consensus.hashGenesisBlock == uint256S("727667a6f70ca7288d6589c1789e1d1b78675ec64767b9beadb8ed7506a379cf"));
+        assert(consensus.hashGenesisBlock == uint256S("aa2dbadc62002c8b702fa70d5af74659cf1a32acc6d78d2677818be13501ebba"));
         assert(genesis.hashMerkleRoot == uint256S("222dad3c0da9678bc38331e8a88387cf7ce2e31c9b69510a1291768b4917ce75"));
 
         // Note that of those which support the service bits prefix, most only support a subset of
@@ -164,7 +164,16 @@ public:
         vSeeds.emplace_back("dnsseed.emzy.de"); // Stephan Oeste
         */
 
-        vSeeds.emplace_back("ec2-13-209-97-152.ap-northeast-2.compute.amazonaws.com"); // NewDifficultyModel-S2
+        vSeeds.emplace_back("ec2-13-209-97-152.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S1
+        vSeeds.emplace_back("ec2-15-164-216-66.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S2 
+        vSeeds.emplace_back("ec2-15-164-215-13.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S3 
+        vSeeds.emplace_back("ec2-15-164-218-171.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S4 
+        vSeeds.emplace_back("ec2-13-125-244-57.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S5 
+        vSeeds.emplace_back("ec2-52-79-150-118.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S6 
+        vSeeds.emplace_back("ec2-13-209-7-245.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S7 
+        vSeeds.emplace_back("ec2-54-180-108-165.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S8 
+        vSeeds.emplace_back("ec2-15-164-96-243.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S9 
+        vSeeds.emplace_back("ec2-54-180-97-17.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S10
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,0);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,5);
