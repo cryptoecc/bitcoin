@@ -21,6 +21,7 @@
 #if GENESIS
 #include <arith_uint256.h>
 #include <ldpc/LDPC.h>
+#include <pow.h>
 #endif
 
 static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
@@ -75,7 +76,7 @@ public:
         consensus.BIP34Hash = uint256S("0x000000000000024b89b42a942fe0d9fea3bb44ab7bd1b19115dd6a759c0808b8");
         consensus.BIP65Height = 388381; // 000000000000000004c2b624ed5d7756c508d90fd0da2c7c679febfa6c4735f0
         consensus.BIP66Height = 363725; // 00000000000000000379eaa19dce8c9b722d46ae6a57c2f1a988119488b50931
-        consensus.powLimit = uint256S("00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.powLimit = uint256S("0x00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // 시간 때문에 잠 깐 변경 추후에 수정 되어야 함 
         consensus.nPowTargetTimespan = 100 * 2 * 60;
         consensus.nPowTargetSpacing = 2 * 60; // 2 min
         consensus.fPowAllowMinDifficultyBlocks = false;
@@ -116,37 +117,61 @@ public:
         m_assumed_blockchain_size = 240;
         m_assumed_chain_state_size = 3;
 
-        int init_level = 96;
-        genesis = CreateGenesisBlock(1571809160, 1, 0x1b00000b, 1, 50 * COIN);
-        printf("\nmainnet with level = %d\n",init_level);
-        printf("set is constructed from %d to %d with step 2\n",ldpc_level_table[init_level].from, ldpc_level_table[init_level].to);
-        printf("n : %d\t wc : %d\t wr : %d\n", ldpc_level_table[init_level].n, ldpc_level_table[init_level].wc, ldpc_level_table[init_level].wr);
+        genesis = CreateGenesisBlock(1571809160, 90810, 0x1f00ffff, 1, 50 * COIN);
+        printf("\nmainnet\n");
 
-#if GENESIS
+#if 1
         LDPC *ldpc = new LDPC;
-        ldpc->set_difficulty(init_level);
+        ldpc->set_difficulty(64,3,4);
         ldpc->initialization();
         ldpc->generate_seeds(UintToArith256(genesis.hashPrevBlock).GetLow64());
         ldpc->generate_H();
         ldpc->generate_Q();
+	CBlockHeader tmp;
+	tmp.nTime = 0;
+	tmp.nBits = 0;
+	tmp.nNonce = 0;
+	tmp.nVersion = 0;
+        bool fNegative;
+        bool fOverflow;
+        arith_uint256 bnTarget;
+        bnTarget.SetCompact(genesis.nBits, &fNegative, &fOverflow);
+	std::cout << "Target: " << bnTarget.ToString() << std::endl;
+
+	char str[65] = {0,};
+
         while(1)
         {
+		
             ldpc->generate_hv((unsigned char*)genesis.GetHash().ToString().c_str());
             ldpc->decoding();
-            if (ldpc->decision())
-                break;
+//	    ldpc->print_word(NULL,2);
+	    ldpc->binary_to_hex(str);
+	    tmp.nNonce = genesis.nNonce;         // 디코더의 결과 값을 만들 때 사용한 넌스 값 
+	    tmp.hashMerkleRoot = uint256S(str);  //디코더의 결과 값 
+
+	    if ( tmp.nNonce%100000 == 0 )
+	    {
+		    std::cout << "nonce : " << tmp.nNonce << std::endl;
+		    std::cout << "final hash : " << tmp.GetHash().ToString() << std::endl;
+	    }
+
+	    if (UintToArith256(tmp.GetHash()) <= bnTarget)
+		    break;
+
             genesis.nNonce++;
             assert(genesis.nNonce);
         }
         delete ldpc;
+	std::cout << tmp.GetHash().ToString() << std::endl;
         std::cout << "mainnet n: " << genesis.nNonce << " Hash: " << genesis.GetHash().ToString() << std::endl;
 	std::cout << " Merkle: " << genesis.hashMerkleRoot.ToString() << std::endl;
 #endif
         consensus.hashGenesisBlock = genesis.GetHash();
 //      assert(consensus.hashGenesisBlock == uint256S("b661d2b6290d3df44d2f5bfc9e220220a312e4b1bf8b2d95dc186931b3ed6a80"));
 //      assert(genesis.hashMerkleRoot == uint256S("15d2f927fe3eafe88ce0b4ccf267727ed306295051339a16e0b95067e65bead8"));
-        assert(consensus.hashGenesisBlock == uint256S("aa2dbadc62002c8b702fa70d5af74659cf1a32acc6d78d2677818be13501ebba"));
-        assert(genesis.hashMerkleRoot == uint256S("222dad3c0da9678bc38331e8a88387cf7ce2e31c9b69510a1291768b4917ce75"));
+//        assert(consensus.hashGenesisBlock == uint256S("6f43e281134e852f744e34c7eed1d05ff5d6215047e5d9ff925674b1ad569fe6"));
+//        assert(genesis.hashMerkleRoot == uint256S("222dad3c0da9678bc38331e8a88387cf7ce2e31c9b69510a1291768b4917ce75"));
 
         // Note that of those which support the service bits prefix, most only support a subset of
         // possible options.
@@ -164,16 +189,11 @@ public:
         vSeeds.emplace_back("dnsseed.emzy.de"); // Stephan Oeste
         */
 
-        vSeeds.emplace_back("ec2-13-209-97-152.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S1
-        vSeeds.emplace_back("ec2-15-164-216-66.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S2 
-        vSeeds.emplace_back("ec2-15-164-215-13.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S3 
-        vSeeds.emplace_back("ec2-15-164-218-171.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S4 
-        vSeeds.emplace_back("ec2-13-125-244-57.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S5 
-        vSeeds.emplace_back("ec2-52-79-150-118.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S6 
-        vSeeds.emplace_back("ec2-13-209-7-245.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S7 
-        vSeeds.emplace_back("ec2-54-180-108-165.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S8 
-        vSeeds.emplace_back("ec2-15-164-96-243.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S9 
-        vSeeds.emplace_back("ec2-54-180-97-17.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S10
+        vSeeds.emplace_back("ec2-13-124-151-253.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S1
+        vSeeds.emplace_back("ec2-13-124-208-5.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S2
+        vSeeds.emplace_back("ec2-13-209-9-119.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S3
+        vSeeds.emplace_back("ec2-52-78-205-215.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S4
+        vSeeds.emplace_back("ec2-13-209-85-141.ap-northeast-2.compute.amazonaws.com"); // NDM-TRY2-S5
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,0);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,5);
@@ -265,7 +285,7 @@ public:
         printf("set is constructed from %d to %d with step 2\n",ldpc_level_table[init_level].from, ldpc_level_table[init_level].to);
         printf("n : %d\t wc : %d\t wr : %d\n", ldpc_level_table[init_level].n, ldpc_level_table[init_level].wc, ldpc_level_table[init_level].wr);
 
-#if GENESIS
+#if 0 
         LDPC *ldpc = new LDPC;
         ldpc->set_difficulty(init_level);
         ldpc->initialization();
@@ -378,36 +398,67 @@ public:
 
         UpdateVersionBitsParametersFromArgs(args);
 
-        uint32_t nBits = 0x1d00ffff;
-        int init_level = 10;
-        genesis = CreateGenesisBlock(1560519259,403 , nBits, 1, 50 * COIN);
+        uint32_t nBits = 0x207fffff;
+        genesis = CreateGenesisBlock(1571809160,1, nBits, 1, 50 * COIN);
 
-        printf("\nregtest with level = %d\n",init_level);
-        printf("set is constructed from %d to %d with step 2\n",ldpc_level_table[init_level].from, ldpc_level_table[init_level].to);
-        printf("n : %d\t wc : %d\t wr : %d\n", ldpc_level_table[init_level].n, ldpc_level_table[init_level].wc, ldpc_level_table[init_level].wr);
+	std::cout << "regtestmode" << std::endl;
 
 #if GENESIS
         LDPC *ldpc = new LDPC;
-        ldpc->set_difficulty(init_level);
+        ldpc->set_difficulty(64,3,4);
         ldpc->initialization();
         ldpc->generate_seeds(UintToArith256(genesis.hashPrevBlock).GetLow64());
         ldpc->generate_H();
         ldpc->generate_Q();
+        CBlockHeader tmp;
+        tmp.nTime = 0;
+        tmp.nBits = 0;
+        tmp.nNonce = 0;
+        tmp.nVersion = 0;
+        bool fNegative;
+        bool fOverflow;
+        arith_uint256 bnTarget;
+        bnTarget.SetCompact(genesis.nBits, &fNegative, &fOverflow);
+        std::cout << "Target: " << bnTarget.ToString() << std::endl;
+
+
+
+        char str[65] = {0,};
         while(1)
         {
             ldpc->generate_hv((unsigned char*)genesis.GetHash().ToString().c_str());
             ldpc->decoding();
-            if (ldpc->decision())
-                break;
+//            ldpc->print_word(NULL,2);
+            ldpc->binary_to_hex(str);
+            tmp.nNonce = genesis.nNonce;         // 디코더의 결과 값을 만들 때 사용한 넌스 값
+            tmp.hashMerkleRoot = uint256S(str);  //디코더의 결과 값
+
+        //    std::cout << "final hash: " << tmp.GetHash().ToString() << std::endl;
+
+            if ( tmp.nNonce%100000 == 0 )
+            {
+                    std::cout << "nonce : " << tmp.nNonce << std::endl;
+                    std::cout << "final hash : " << tmp.GetHash().ToString() << std::endl;
+            }
+
+            if (UintToArith256(tmp.GetHash()) <= bnTarget)
+                    break;
+
+//            break;
             genesis.nNonce++;
             assert(genesis.nNonce);
         }
         delete ldpc;
-        std::cout << "mainnet n: " << genesis.nNonce << " Hash: " << genesis.GetHash().ToString() << std::endl;
+        std::cout << tmp.GetHash().ToString() << std::endl;
+        std::cout << "regtest n : " << genesis.nNonce << " Hash: " << genesis.GetHash().ToString() << std::endl;
+        std::cout << " Merkle: " << genesis.hashMerkleRoot.ToString() << std::endl;
 #endif
         consensus.hashGenesisBlock = genesis.GetHash();
-//      assert(consensus.hashGenesisBlock == uint256S("34ac66ed64e5a26cd9122a569a5a599d970deecc813f1f798affbf2434525ca6"));
+//      assert(consensus.hashGenesisBlock == uint256S("b661d2b6290d3df44d2f5bfc9e220220a312e4b1bf8b2d95dc186931b3ed6a80"));
 //      assert(genesis.hashMerkleRoot == uint256S("15d2f927fe3eafe88ce0b4ccf267727ed306295051339a16e0b95067e65bead8"));
+//        assert(consensus.hashGenesisBlock == uint256S("6f43e281134e852f744e34c7eed1d05ff5d6215047e5d9ff925674b1ad569fe6"));
+//        assert(genesis.hashMerkleRoot == uint256S("222dad3c0da9678bc38331e8a88387cf7ce2e31c9b69510a1291768b4917ce75"));
+
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.

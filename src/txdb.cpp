@@ -275,6 +275,7 @@ bool CBlockTreeDB::LoadBlockIndexGuts(const Consensus::Params& consensusParams, 
                 pindexNew->nTx            = diskindex.nTx;
 
 #if LDPC_POW
+//		printf("adfasdf\n");
                 if (!CheckProofOfWork(pindexNew->GetBlockHeader(), consensusParams))
                     return error("%s: CheckProofOfWork failed: %s", __func__, pindexNew->ToString());
 #else

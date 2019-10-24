@@ -16,17 +16,17 @@ LDPC::LDPC()
 
 LDPC::~LDPC()
 {
-    Delete_2D_Array(this->H, this->m);
-    Delete_2D_Array(this->col_in_row, this->wr);
-    Delete_2D_Array(this->row_in_col, this->wc);
+//    Delete_2D_Array(this->H, this->m);
+//    Delete_2D_Array(this->col_in_row, this->wr);
+//    Delete_2D_Array(this->row_in_col, this->wc);
 
-    Delete_2D_Array(this->LRqtl, this->n);
-    Delete_2D_Array(this->LRrtl, this->n);
-    Delete_1D_Array(this->LRpt);
-    Delete_1D_Array(this->LRft);
+//    Delete_2D_Array(this->LRqtl, this->n);
+//    Delete_2D_Array(this->LRrtl, this->n);
+//    Delete_1D_Array(this->LRpt);
+//    Delete_1D_Array(this->LRft);
 
-    Delete_1D_Array(this->hash_vector);
-    Delete_1D_Array(this->output_word);
+//    Delete_1D_Array(this->hash_vector);
+//    Delete_1D_Array(this->output_word);
 }
 
 void LDPC::decoding()
@@ -112,8 +112,6 @@ void LDPC::generate_seeds(uint64_t hash)
         this->seeds.push_back(static_cast<uint32_t>((hash & mask) >> (i * 4)));
         mask = mask << 4;
     }
-    uint64_t tmp = 0x8be330edbd38090f3d2a7fcf3cfb43939be56b667ccafbdb7cf0c848c96b8ff9;
-    this->seeds.push_back(static_cast<uint32_t>(tmp));
 }
 
 void LDPC::generate_hv(const unsigned char hash_value[])
@@ -145,12 +143,28 @@ void LDPC::generate_hv(const unsigned char hash_value[])
     }
     memcpy(this->output_word, this->hash_vector, sizeof(int)*this->n);
 }
+void LDPC::binary_to_hex(char *str)
+{
+	for ( int i = 0 ; i < this->n/4 ; i++)
+	{
+		int index = i*4;
+		int num = 0;
+		num = output_word[index]*8 + output_word[index+1]*4 + output_word[index+2]*2 + output_word[index+3];
+		if ( num < 10 )
+			str[i] = 48 + num;
+		else
+			str[i] = 97 + num - 10;
+
+//		printf("%c",str[i]);
+	}
+//	printf("\n");
+}
 
 bool LDPC::generate_H()
 {
     std::vector<int> col_order;
-    if (this->H == NULL)
-        return false;
+//    if (this->H == NULL)
+ //       return false;
 
     int k = this->m / this->wc;
 
@@ -324,33 +338,56 @@ bool LDPC::is_regular(int n, int wc, int wr)
 
 bool LDPC::initialization()
 {
-    Delete_2D_Array(this->H, this->m);
-    Delete_2D_Array(this->col_in_row, this->wr);
-    Delete_2D_Array(this->row_in_col, this->wc);
+//    Delete_2D_Array(this->H, this->m);
+    //Delete_2D_Array(this->col_in_row, this->wr);
+    //Delete_2D_Array(this->row_in_col, this->wc);
 
-    Delete_2D_Array(this->LRqtl, this->n);
-    Delete_2D_Array(this->LRrtl, this->n);
-    Delete_1D_Array(this->LRpt);
-    Delete_1D_Array(this->LRft);
+//    Delete_2D_Array(this->LRqtl, this->n);
+//    Delete_2D_Array(this->LRrtl, this->n);
+//    Delete_1D_Array(this->LRpt);
+//    Delete_1D_Array(this->LRft);
 
-    Delete_1D_Array(this->hash_vector);
-    Delete_1D_Array(this->output_word);
+//    Delete_1D_Array(this->hash_vector);
+//    Delete_1D_Array(this->output_word);
 
-    this->H = Allocate_2D_Array_Int(this->m, this->n, "No sufficient memory for H");
-    this->col_in_row = Allocate_2D_Array_Int(this->wr, this->m, "No sufficient memory for Q1_col_in_row");
-    this->row_in_col = Allocate_2D_Array_Int(this->wc, this->n, "No sufficient memory for Q2_row_in_col");
+//    this->H = Allocate_2D_Array_Int(this->m, this->n, "No sufficient memory for H");
+//    this->col_in_row = Allocate_2D_Array_Int(this->wr, this->m, "No sufficient memory for Q1_col_in_row");
+//    this->row_in_col = Allocate_2D_Array_Int(this->wc, this->n, "No sufficient memory for Q2_row_in_col");
 
-    this->LRpt = Allocate_1D_Array_Double(this->n, "No sufficient memory for LRqtl");
-    this->LRft = Allocate_1D_Array_Double(this->n, "No sufficient memory for LRrtl");
-    this->LRrtl = Allocate_2D_Array_Double(this->n, this->m, "No Sufficient memory for LRrtl");
-    this->LRqtl = Allocate_2D_Array_Double(this->n, this->m, "No Sufficient memory for LRqtl");
+//    this->LRpt = Allocate_1D_Array_Double(this->n, "No sufficient memory for LRqtl");
+//    this->LRft = Allocate_1D_Array_Double(this->n, "No sufficient memory for LRrtl");
+//    this->LRrtl = Allocate_2D_Array_Double(this->n, this->m, "No Sufficient memory for LRrtl");
+//    this->LRqtl = Allocate_2D_Array_Double(this->n, this->m, "No Sufficient memory for LRqtl");
 
-    this->hash_vector = Allocate_1D_Array_Int(this->n, "No sufficient memory for hash_vector");
-    this->output_word = Allocate_1D_Array_Int(this->n, "No sufficient memory for output_word");
+//    this->hash_vector = Allocate_1D_Array_Int(this->n, "No sufficient memory for hash_vector");
+//    this->output_word = Allocate_1D_Array_Int(this->n, "No sufficient memory for output_word");
 
-    if (this->H && this->col_in_row && this->row_in_col && this->LRft && this->LRft && this->LRrtl && this->LRqtl && this->hash_vector && this->output_word)
-        return true;
-    return false;
+    memset(this->output_word,0,sizeof(int)*this->n);
+    memset(this->hash_vector,0,sizeof(int)*this->n);
+    memset(this->LRpt,0,sizeof(double)*this->n);
+    memset(this->LRft,0,sizeof(double)*this->n);
+
+    for ( int i = 0 ; i < this->wr ; i++)
+	    memset(this->col_in_row[i],0,sizeof(int)*this->m);
+    for ( int i = 0 ; i < this->wc ; i++)
+	    memset(this->row_in_col[i],0,sizeof(int)*this->m);
+
+
+
+    for ( int i = 0 ; i < this->n ; i ++ )
+    {
+	    memset(this->LRrtl[i],0,sizeof(double)*this->m);
+	    memset(this->LRqtl[i],0,sizeof(double)*this->m);
+    }
+    for ( int i = 0 ; i < this->m ; i ++)
+	    memset(this->H[i],0,sizeof(int)*this->n);
+
+
+
+
+//    if (this->H && this->col_in_row && this->row_in_col && this->LRft && this->LRft && this->LRrtl && this->LRqtl && this->hash_vector && this->output_word)
+//        return true;
+//    return false;
 }
 
 bool LDPC::decision()

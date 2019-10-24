@@ -56,8 +56,8 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
         return pindexLast->nBits;
  
 
-    printf("CalculateNextWorkRequired: Height (before): %s\n", pindexLast->nHeight);
-    printf("curt_level = %d\n",GetLevelfromnBits(pindexLast->nBits));
+  //  printf("CalculateNextWorkRequired: Height (before): %s\n", pindexLast->nHeight);
+  //  printf("curt_level = %d\n",GetLevelfromnBits(pindexLast->nBits));
 
     int64_t nActualTimespan = pindexLast->GetBlockTime() - nFirstBlockTime;
     if (nActualTimespan < params.nPowTargetTimespan/4)
@@ -75,7 +75,7 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
         bnNew = bnPowLimit;
 
 
-    printf("next_level = %d\n",GetLevelfromnBits(bnNew.GetCompact()));
+//    printf("next_level = %d\n",GetLevelfromnBits(bnNew.GetCompact()));
 
     return bnNew.GetCompact();
 }
@@ -104,30 +104,48 @@ bool CheckProofOfWork(CBlockHeader block, const Consensus::Params& params)
 {
     bool fNegative;
     bool fOverflow;
-    bool result = false;
 
     arith_uint256 bnTarget;
 
     bnTarget.SetCompact(block.nBits, &fNegative, &fOverflow);
 
+//    printf("fNegative = %d\n",fNegative);
+//    printf("fOVerflow = %d\n",fOverflow);
+//    std::cout << "bnTarget = " << bnTarget.ToString() << std::endl;
+//    std::cout << "         = " << UintToArith256(params.powLimit).ToString() << std::endl;
+
     // Check range
     if (fNegative || bnTarget == 0 || fOverflow || bnTarget > UintToArith256(params.powLimit))
-        return result;
+        return false;
 
-    int level = GetLevelfromnBits(block.nBits);
+		    
     LDPC *ldpc = new LDPC;
-    ldpc->set_difficulty(level);
+
+
+		    
+    ldpc->set_difficulty(64,3,4);
     ldpc->initialization();
     ldpc->generate_seeds(UintToArith256(block.hashPrevBlock).GetLow64());
     ldpc->generate_H();
     ldpc->generate_Q();
     ldpc->generate_hv((unsigned char*)block.GetHash().ToString().c_str());
     ldpc->decoding();
-    if (ldpc->decision())
-        result = true;
+
+		    
+    char str[65] ={0,};
+    ldpc->binary_to_hex(str);
+		    
+    CBlockHeader tmp;
+    tmp.nTime = 0; tmp.nBits = 0; tmp.nNonce = 0; tmp.nVersion = 0;
+    tmp.nNonce = block.nNonce;
+    tmp.hashMerkleRoot = uint256S(str);
+
+
+    if (UintToArith256(tmp.GetHash()) > bnTarget)
+        return false;
 
     delete ldpc;
-    return result;
+    return true;
 }
 int GetLevelfromnBits(uint32_t nBits)
 {
