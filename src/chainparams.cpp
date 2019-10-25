@@ -80,7 +80,7 @@ public:
         consensus.nPowTargetTimespan = 100 * 2 * 60;
         consensus.nPowTargetSpacing = 2 * 60; // 2 min
         consensus.fPowAllowMinDifficultyBlocks = false;
-        consensus.fPowNoRetargeting = true;
+        consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 95; // 95% of 2016
         consensus.nMinerConfirmationWindow = 100; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
