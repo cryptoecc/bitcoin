@@ -112,7 +112,7 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
     }
     unsigned int nExtraNonce = 0;
     UniValue blockHashes(UniValue::VARR);
-    LDPC *ldpc = new LDPC;
+    LDPC ldpc;
     while (nHeight < nHeightEnd && !ShutdownRequested())
     {
         std::unique_ptr<CBlockTemplate> pblocktemplate(BlockAssembler(Params()).CreateNewBlock(coinbaseScript->reserveScript));
@@ -124,16 +124,16 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
             IncrementExtraNonce(pblock, chainActive.Tip(), nExtraNonce);
         }
 #if LDPC_POW
-    ldpc->set_difficulty(64,3,4);
-    ldpc->initialization();
-    ldpc->generate_seeds(UintToArith256(pblock->hashPrevBlock).GetLow64());
-    ldpc->generate_H();
-    ldpc->generate_Q();
-    ldpc->generate_hv((unsigned char*)pblock->GetHash().ToString().c_str());
-    ldpc->decoding();
+    ldpc.set_difficulty(64,3,4);
+    ldpc.initialization();
+    ldpc.generate_seeds(UintToArith256(pblock->hashPrevBlock).GetLow64());
+    ldpc.generate_H();
+    ldpc.generate_Q();
+    ldpc.generate_hv((unsigned char*)pblock->GetHash().ToString().c_str());
+    ldpc.decoding();
 
     char str[65] ={0,};
-    ldpc->binary_to_hex(str);
+    ldpc.binary_to_hex(str);
 
     CBlockHeader tmp;
     tmp.nTime = 0; tmp.nBits = 0; tmp.nNonce = 0; tmp.nVersion = 0;
@@ -144,15 +144,12 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
         while (nMaxTries > 0 && pblock->nNonce < nInnerLoopCount && !CheckProofOfWork(tmp.GetHash(),pblock->nBits, Params().GetConsensus())) {
 		++pblock->nNonce;
 	       	--nMaxTries;
-	    	ldpc->generate_hv((unsigned char*)pblock->GetHash().ToString().c_str());
-	    	ldpc->decoding();
+	    	ldpc.generate_hv((unsigned char*)pblock->GetHash().ToString().c_str());
+	    	ldpc.decoding();
 		memset(str,0,sizeof(char)*65);
-		ldpc->binary_to_hex(str);
+		ldpc.binary_to_hex(str);
 		tmp.nNonce = pblock->nNonce;
 		tmp.hashMerkleRoot = uint256S(str);
-//		std::cout << tmp.GetHash().ToString() << std::endl;
-
-	
         }
 #else
       while (nMaxTries > 0 && pblock->nNonce < nInnerLoopCount && !CheckProofOfWork(pblock->GetHash(), pblock->nBits, Params().GetConsensus())) {
@@ -178,7 +175,6 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
             coinbaseScript->KeepScript();
         }
     }
-    delete ldpc;
     return blockHashes;
 }
 

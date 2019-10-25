@@ -465,12 +465,12 @@ private:
 #define BIG_INFINITY    1000000.0
 #define Inf          64.0
   int level = 0;	//This variable is used to provide a metric how a ldpc problem is difficult.
-  int hash_vector[64] = {0,};
-  int output_word[64] = {0,};
+  int *hash_vector = NULL;
+  int *output_word = NULL;
 
-  int H[48][64];
-  int row_in_col[3][64];
-  int col_in_row[4][64];
+  int **H = NULL;
+  int **row_in_col = NULL;;
+  int **col_in_row = NULL;
   
   int n, m, wc, wr;
   uint64_t seed;
@@ -480,10 +480,10 @@ private:
   int    max_iter = 20;   // the maximum number of iteration in the decoding function. We fix it.
   double cross_err = 0.01; // a transisient error probability. this is also fixed as a small value.
 
-  double LRft[64] = {0.0,};
-  double LRpt[64] = {0.0,};
-  double LRrtl[64][48];
-  double LRqtl[64][48];
+  double *LRft = NULL;;
+  double *LRpt = NULL;
+  double **LRrtl = NULL;
+  double **LRqtl = NULL;;
 
   // these functions are only used for the decoding function.
   double func_f(double x);

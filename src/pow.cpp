@@ -119,21 +119,21 @@ bool CheckProofOfWork(CBlockHeader block, const Consensus::Params& params)
         return false;
 
 		    
-    LDPC *ldpc = new LDPC;
+    LDPC ldpc;
 
 
 		    
-    ldpc->set_difficulty(64,3,4);
-    ldpc->initialization();
-    ldpc->generate_seeds(UintToArith256(block.hashPrevBlock).GetLow64());
-    ldpc->generate_H();
-    ldpc->generate_Q();
-    ldpc->generate_hv((unsigned char*)block.GetHash().ToString().c_str());
-    ldpc->decoding();
+    ldpc.set_difficulty(64,3,4);
+    ldpc.initialization();
+    ldpc.generate_seeds(UintToArith256(block.hashPrevBlock).GetLow64());
+    ldpc.generate_H();
+    ldpc.generate_Q();
+    ldpc.generate_hv((unsigned char*)block.GetHash().ToString().c_str());
+    ldpc.decoding();
 
 		    
     char str[65] ={0,};
-    ldpc->binary_to_hex(str);
+    ldpc.binary_to_hex(str);
 		    
     CBlockHeader tmp;
     tmp.nTime = 0; tmp.nBits = 0; tmp.nNonce = 0; tmp.nVersion = 0;
@@ -144,7 +144,7 @@ bool CheckProofOfWork(CBlockHeader block, const Consensus::Params& params)
     if (UintToArith256(tmp.GetHash()) > bnTarget)
         return false;
 
-    delete ldpc;
+   // delete ldpc;
     return true;
 }
 int GetLevelfromnBits(uint32_t nBits)
