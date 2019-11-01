@@ -11,5 +11,5 @@
 
 /** Generate blocks (mine) */
 UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGenerate, uint64_t nMaxTries, bool keepScript);
-
+void GetMyIpAddr(char *ip_buffer);
 #endif

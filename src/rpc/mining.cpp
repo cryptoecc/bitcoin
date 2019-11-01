@@ -105,6 +105,10 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
     int nHeightEnd = 0;
     int nHeight = 0;
 
+    char myEth0_addr[20] = {0,};
+    GetMyIpAddr(myEth0_addr);
+    string ipaddr(myEth0_addr);
+    ipaddr.erase(remove(ipaddr.begin(),ipaddr.end(),'.'),ipaddr.end());
     {   // Don't keep cs_main locked
         LOCK(cs_main);
         nHeight = chainActive.Height();
@@ -168,6 +172,23 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
             throw JSONRPCError(RPC_INTERNAL_ERROR, "ProcessNewBlock, block not accepted");
         ++nHeight;
         blockHashes.push_back(pblock->GetHash().GetHex());
+	
+	//Save mining blocks data
+        ofstream fout(ipaddr+".csv", ios_base::app);
+	/*
+        "nVersion","hashPrevBlock","hashMerkleRoot","nTime","nBits","nNonce",
+        "hashMiningBlock","BestBlock","Timespan","Targettimespan",
+	"staleBlock"
+	*/        
+	
+	fout<<pblock->nVersion<<","<<pblock->hashPrevBlock.GetHex()<<",";
+        fout<<pblock->hashMerkleRoot.GetHex()<<","<<pblock->nTime<<",";
+        fout<<pblock->nBits<<","<<pblock->nNonce<<",";
+        fout<<pblock->GetHash().GetHex()<<",";
+	fout<<chainActive.Tip()->GetBlockHash().GetHex()<<",";
+	fout<<"=D1-D2"<<","<<"60"<<",";
+	fout<<nHeightEnd-nHeight<<endl;
+        fout.close();
 
         //mark script as important because it was used at least for one coinbase output if the script came from the wallet
         if (keepScript)
