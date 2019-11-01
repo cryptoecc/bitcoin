@@ -77,12 +77,12 @@ public:
         consensus.BIP65Height = 388381; // 000000000000000004c2b624ed5d7756c508d90fd0da2c7c679febfa6c4735f0
         consensus.BIP66Height = 363725; // 00000000000000000379eaa19dce8c9b722d46ae6a57c2f1a988119488b50931
         consensus.powLimit = uint256S("0x00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // 시간 때문에 잠 깐 변경 추후에 수정 되어야 함 
-        consensus.nPowTargetTimespan = 100 * 2 * 60;
-        consensus.nPowTargetSpacing = 2 * 60; // 2 min
+        consensus.nPowTargetTimespan = 10 * 2 * 60;
+        consensus.nPowTargetSpacing = 1 * 60; // 1 min
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
-        consensus.nRuleChangeActivationThreshold = 95; // 95% of 2016
-        consensus.nMinerConfirmationWindow = 100; // nPowTargetTimespan / nPowTargetSpacing
+        consensus.nRuleChangeActivationThreshold = 19; // 95% of 2016
+        consensus.nMinerConfirmationWindow = 20; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
@@ -179,9 +179,9 @@ public:
         // service bits we want, but we should get them updated to support all service bits wanted by any
         // release ASAP to avoid it where possible.
 
-        vSeeds.emplace_back("ec2-13-209-74-13.ap-northeast-2.compute.amazonaws.com"); // SHADECSHA-S1
-        vSeeds.emplace_back("ec2-15-165-18-193.ap-northeast-2.compute.amazonaws.com"); // SHADECSHA-S2
-        vSeeds.emplace_back("ec2-54-180-162-131.ap-northeast-2.compute.amazonaws.com"); // SHADECSHA-S3
+        vSeeds.emplace_back("ec2-13-125-248-22.ap-northeast-2.compute.amazonaws.com"); // T-BTCE-S1
+        vSeeds.emplace_back("ec2-15-164-250-48.ap-northeast-2.compute.amazonaws.com"); // T-BTCE-S2
+        vSeeds.emplace_back("ec2-13-125-241-20.ap-northeast-2.compute.amazonaws.com"); // T-BTCE-S3
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,0);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,5);
