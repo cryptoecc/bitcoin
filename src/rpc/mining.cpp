@@ -32,6 +32,16 @@
 #include <memory>
 #include <stdint.h>
 
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <sys/ioctl.h>
+#include <netinet/in.h>
+#include <net/if.h>
+
+using namespace std;
+
 /**
  * Return average network hashes per second based on the last 'lookup' blocks,
  * or from the last difficulty change if 'lookup' is nonpositive.
@@ -98,6 +108,23 @@ static UniValue getnetworkhashps(const JSONRPCRequest& request)
     LOCK(cs_main);
     return GetNetworkHashPS(!request.params[0].isNull() ? request.params[0].get_int() : 120, !request.params[1].isNull() ? request.params[1].get_int() : -1);
 }
+
+void GetMyIpAddr(char *ip_buffer)
+{
+    int fd;
+    struct ifreq ifr;
+ 
+    fd = socket(AF_INET, SOCK_DGRAM, 0);
+     
+    ifr.ifr_addr.sa_family = AF_INET;
+    strncpy(ifr.ifr_name, "ens5", IFNAMSIZ -1);
+    
+    ioctl(fd, SIOCGIFADDR, &ifr);
+    close(fd);
+     
+    sprintf(ip_buffer, "%s", inet_ntoa(((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr));
+}
+
 
 UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGenerate, uint64_t nMaxTries, bool keepScript)
 {
@@ -187,7 +214,7 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
         fout<<pblock->GetHash().GetHex()<<",";
 	fout<<chainActive.Tip()->GetBlockHash().GetHex()<<",";
 	fout<<"=D1-D2"<<","<<"60"<<",";
-	fout<<nHeightEnd-nHeight<<endl;
+	fout<<nHeightEnd-nHeight<<std::endl;
         fout.close();
 
         //mark script as important because it was used at least for one coinbase output if the script came from the wallet
