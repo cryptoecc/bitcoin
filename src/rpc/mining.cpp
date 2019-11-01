@@ -214,7 +214,7 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
         fout<<pblock->GetHash().GetHex()<<",";
 	fout<<chainActive.Tip()->GetBlockHash().GetHex()<<",";
 	fout<<"=D1-D2"<<","<<"60"<<",";
-	fout<<nHeightEnd-nHeight<<std::endl;
+	fout<<nHeightEnd<<std::endl;
         fout.close();
 
         //mark script as important because it was used at least for one coinbase output if the script came from the wallet

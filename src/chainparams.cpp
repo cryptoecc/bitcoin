@@ -112,7 +112,7 @@ public:
         pchMessageStart[1] = 0x54;
         pchMessageStart[2] = 0x43;
         pchMessageStart[3] = 0x45;
-        nDefaultPort = 9777;
+        nDefaultPort = 8555;
         nPruneAfterHeight = 100000;
         m_assumed_blockchain_size = 240;
         m_assumed_chain_state_size = 3;
@@ -212,7 +212,7 @@ public:
         };
 
         /* disable fallback fee on mainnet */
-        m_fallback_fee_enabled = false;
+        m_fallback_fee_enabled = true;
     }
 };
 
