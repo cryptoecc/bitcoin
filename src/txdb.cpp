@@ -377,7 +377,8 @@ bool CCoinsViewDB::Upgrade() {
         if (pcursor->GetKey(key) && key.first == DB_COINS) {
             if (count++ % 256 == 0) {
                 uint32_t high = 0x100 * *key.second.begin() + *(key.second.begin() + 1);
-                int percentageDone = (int)(high * 100.0 / 65536.0 + 0.5);
+                //int percentageDone = (int)(high * 100.0 / 65536.0 + 0.5);
+                int percentageDone = (int)(high * 100.0 / 1000000.0 + 0.5);
                 uiInterface.ShowProgress(_("Upgrading UTXO database"), percentageDone, true);
                 if (reportDone < percentageDone/10) {
                     // report max. every 10% step

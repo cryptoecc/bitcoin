@@ -128,7 +128,7 @@ void GetMyIpAddr(char *ip_buffer)
 
 UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGenerate, uint64_t nMaxTries, bool keepScript)
 {
-    static const int nInnerLoopCount = 0x10000;
+    static const int nInnerLoopCount = 0xf4240;
     int nHeightEnd = 0;
     int nHeight = 0;
 
@@ -203,18 +203,18 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
 	//Save mining blocks data
         ofstream fout(ipaddr+".csv", ios_base::app);
 	/*
-        "nVersion","hashPrevBlock","hashMerkleRoot","nTime","nBits","nNonce",
-        "hashMiningBlock","BestBlock","Timespan","Targettimespan",
-	"staleBlock"
+        "nVersion(A)","hashPrevBlock(B)","hashMerkleRoot(C)","nTime(D)","nBits(E)","nNonce(F)",
+        "hashMiningBlock(G)","BestBlock(H)","WhoIsBestBlock(I)","StaleBlock(J)",Timespan(K)","Targettimespan(L)"
 	*/        
-	
+      
 	fout<<pblock->nVersion<<","<<pblock->hashPrevBlock.GetHex()<<",";
         fout<<pblock->hashMerkleRoot.GetHex()<<","<<pblock->nTime<<",";
         fout<<pblock->nBits<<","<<pblock->nNonce<<",";
         fout<<pblock->GetHash().GetHex()<<",";
 	fout<<chainActive.Tip()->GetBlockHash().GetHex()<<",";
-	fout<<"=D1-D2"<<","<<"60"<<",";
-	fout<<nHeightEnd<<std::endl;
+        fout<<"=IF(G1=H1,\"true\",\"false\")"<<",";
+        fout<<"=COUNTIF($E$1:E2,\"false\")"<<",";
+	fout<<"=D2-D1"<<","<<"60"<<","<<std::endl;
         fout.close();
 
         //mark script as important because it was used at least for one coinbase output if the script came from the wallet

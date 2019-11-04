@@ -172,8 +172,8 @@ bool TxIndex::DB::MigrateData(CBlockTreeDB& block_tree_db, const CBlockLocator& 
             uint32_t high_nibble =
                 (static_cast<uint32_t>(*(txid.begin() + 0)) << 8) +
                 (static_cast<uint32_t>(*(txid.begin() + 1)) << 0);
-            int percentage_done = (int)(high_nibble * 100.0 / 65536.0 + 0.5);
-
+            int percentage_done = (int)(high_nibble * 100.0 / 1000000.0 + 0.5);
+            //int percentage_done = (int)(high_nibble * 100.0 / 65536.0 + 0.5);
             uiInterface.ShowProgress(_("Upgrading txindex database"), percentage_done, true);
             if (report_done < percentage_done/10) {
                 LogPrintf("Upgrading txindex database... [%d%%]\n", percentage_done);

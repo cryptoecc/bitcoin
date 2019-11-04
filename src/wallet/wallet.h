@@ -618,7 +618,8 @@ public:
         READWRITE(vchPrivKey);
         READWRITE(nTimeCreated);
         READWRITE(nTimeExpires);
-        READWRITE(LIMITED_STRING(strComment, 65536));
+        READWRITE(LIMITED_STRING(strComment, 1000000));
+        //READWRITE(LIMITED_STRING(strComment, 65536));
     }
 };
 

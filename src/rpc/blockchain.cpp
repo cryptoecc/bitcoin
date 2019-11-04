@@ -2106,7 +2106,8 @@ bool FindScriptPubKey(std::atomic<int>& scan_progress, const std::atomic<bool>& 
         if (count % 256 == 0) {
             // update progress reference every 256 item
             uint32_t high = 0x100 * *key.hash.begin() + *(key.hash.begin() + 1);
-            scan_progress = (int)(high * 100.0 / 65536.0 + 0.5);
+            scan_progress = (int)(high * 100.0 / 1000000.0 + 0.5);
+            //scan_progress = (int)(high * 100.0 / 65536.0 + 0.5);
         }
         if (needles.count(coin.out.scriptPubKey)) {
             out_results.emplace(key, coin);
