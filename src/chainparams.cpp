@@ -179,9 +179,9 @@ public:
         // service bits we want, but we should get them updated to support all service bits wanted by any
         // release ASAP to avoid it where possible.
 
-        vSeeds.emplace_back("ec2-13-125-248-22.ap-northeast-2.compute.amazonaws.com"); //T-BTCE-S1
-        vSeeds.emplace_back("ec2-52-78-224-8.ap-northeast-2.compute.amazonaws.com"); //T-BTCE-S2
-        vSeeds.emplace_back("ec2-52-78-72-32.ap-northeast-2.compute.amazonaws.com"); //T-BTCE-S3
+        vSeeds.emplace_back("ec2-13-209-65-137.ap-northeast-2.compute.amazonaws.com"); //T-BTCE-S1
+        vSeeds.emplace_back("ec2-13-209-17-64.ap-northeast-2.compute.amazonaws.com"); //T-BTCE-S2
+        vSeeds.emplace_back("ec2-54-180-95-66.ap-northeast-2.compute.amazonaws.com"); //T-BTCE-S3
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,0);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,5);
