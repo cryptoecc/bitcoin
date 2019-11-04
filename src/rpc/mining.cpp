@@ -212,8 +212,8 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
         fout<<pblock->nBits<<","<<pblock->nNonce<<",";
         fout<<pblock->GetHash().GetHex()<<",";
 	fout<<chainActive.Tip()->GetBlockHash().GetHex()<<",";
-        fout<<"=IF(G1=H1,\"true\",\"false\")"<<",";
-        fout<<"=COUNTIF($E$1:E2,\"false\")"<<",";
+        fout<<"=IF(G1=H1truefalse)"<<",";
+        fout<<"=COUNTIF($E$1:E2false)"<<",";
 	fout<<"=D2-D1"<<","<<"60"<<","<<std::endl;
         fout.close();
 
