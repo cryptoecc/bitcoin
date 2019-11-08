@@ -39,7 +39,7 @@
 #include <sys/ioctl.h>
 #include <netinet/in.h>
 #include <net/if.h>
-
+#include <ctime>
 using namespace std;
 
 /**
@@ -131,7 +131,8 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
     static const int nInnerLoopCount = 0xf4240;
     int nHeightEnd = 0;
     int nHeight = 0;
-
+    float secs = 180; // 5min
+    clock_t delay = secs*CLOCKS_PER_SEC;
     char myEth0_addr[20] = {0,};
     GetMyIpAddr(myEth0_addr);
     string ipaddr(myEth0_addr);
@@ -182,9 +183,15 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
 		tmp.nNonce = pblock->nNonce;
 		tmp.hashMerkleRoot = uint256S(str);
         }
+	if(nHeight == 200){
+	    clock_t start = clock();
+	    while(clock()-start<delay);
+	    nMaxTries = 0;
+	    break;
+	}
 #else
       while (nMaxTries > 0 && pblock->nNonce < nInnerLoopCount && !CheckProofOfWork(pblock->GetHash(), pblock->nBits, Params().GetConsensus())) {
-          ++pblock->nNonce;
+	  ++pblock->nNonce;
           --nMaxTries;
       }
 #endif
@@ -201,21 +208,19 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
         blockHashes.push_back(pblock->GetHash().GetHex());
 	
 	//Save mining blocks data
-        ofstream fout(ipaddr+".csv", ios_base::app);
-	/*
-        "nVersion(A)","hashPrevBlock(B)","hashMerkleRoot(C)","nTime(D)","nBits(E)","nNonce(F)",
-        "hashMiningBlock(G)","BestBlock(H)","WhoIsBestBlock(I)","StaleBlock(J)",Timespan(K)","Targettimespan(L)"
-	*/        
-      
-	fout<<pblock->nVersion<<","<<pblock->hashPrevBlock.GetHex()<<",";
-        fout<<pblock->hashMerkleRoot.GetHex()<<","<<pblock->nTime<<",";
-        fout<<pblock->nBits<<","<<pblock->nNonce<<",";
-        fout<<pblock->GetHash().GetHex()<<",";
-	fout<<chainActive.Tip()->GetBlockHash().GetHex()<<",";
-        fout<<"=IF(G1=H1truefalse)"<<",";
-        fout<<"=COUNTIF($E$1:E2false)"<<",";
-	fout<<"=D2-D1"<<","<<"60"<<","<<std::endl;
-        fout.close();
+	ofstream fout(ipaddr+"_stale.txt", ios_base::app);
+	fout<<nHeight<<" ";
+	fout<<pblock->hashPrevBlock.GetHex()<<" ";
+	fout<<pblock->GetHash().GetHex()<<endl;
+	fout.close();
+	
+	ofstream out2(ipaddr+".csv", ios_base::app);
+	out2<<nHeight<<",";
+	out2<<ipaddr<<",";
+	out2<<pblock->hashPrevBlock.GetHex()<<",";
+	out2<<pblock->GetHash().GetHex()<<",";
+	out2<<chainActive.Tip()->GetBlockHash().GetHex()<<endl;
+	out2.close();
 
         //mark script as important because it was used at least for one coinbase output if the script came from the wallet
         if (keepScript)
