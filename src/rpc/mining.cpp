@@ -183,7 +183,7 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
 		tmp.nNonce = pblock->nNonce;
 		tmp.hashMerkleRoot = uint256S(str);
         }
-	if(nHeight == 200){
+	if(nHeight == 300){
 	    clock_t start = clock();
 	    while(clock()-start<delay);
 	    nMaxTries = 0;
