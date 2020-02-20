@@ -1,77 +1,44 @@
-Bitcoin Core integration/staging tree
-=====================================
+# DeSecure
+# [What is the DeSecure Blockchain?](https://Desecure.org)
 
-[![Build Status](https://travis-ci.org/bitcoin/bitcoin.svg?branch=master)](https://travis-ci.org/bitcoin/bitcoin)
+## ECCPoW
+### What is the ECCPoW?
+[Go to ECCPoW Repository](https://github.com/cryptoecc/ECCPoW)
+### What is the BTC-ECC?
+[Go to BTC-ECC Repository](https://github.com/cryptoecc/bitcoin_ECC/tree/ecc-0.1.2)
+### What is the ETH-ECC?
+[Go to ETH-ECC Repository](https://github.com/cryptoecc/go-ethereum_ECC/tree/eccpow-1.9)
 
-https://bitcoincore.org
+## Lecture
+### 2019 Blockchain Special Lecture
+1. [Blockchain Economy, 이흥노](https://youtu.be/1_xI0SibZAE)
+2. [Blockchain and the Civil Society, 홍은표 판사](https://youtu.be/hQy5NXb89is)
+3. [ICO/IEO/STO/ Crpyto Economy, 장중혁, 아톰릭스컨설팅 이사](https://youtu.be/PMxT94JFXno) 
+4. [Blockchain and World Economy, 오정근, 한국금융ICT융합학회 회장](https://youtu.be/FMUp-_wdpSU)
+5. [Understanding the Ethereum Blockchain, 정순형, (주)온더 대표](https://youtu.be/wcdaa5bIxbg)
+6. [Blockchain and Innovative Nation, 전하진, 블록체인협회 위원장](https://youtu.be/WPLivTGRYoY)
+7. [Blockchain and Regulation Reform, 구태언 변호사](https://youtu.be/lv6UMa7OjGY)
+8. [Blockchain and Financial Policy, 김기흥 경기대 교수](https://www.youtube.com/watch?v=uDR7NjU-6Kk)
+9. [Blockchain and Judicial System, 황경태 법무법인 헤리티지 변호사](https://youtu.be/GM3y_1nyw4E)
 
-What is Bitcoin?
-----------------
+### Blockchain and Future Society(Lecture 1 ~ Lecture 19)
+- [Lecture 1](https://youtu.be/G07CkGt5GYM)
+### BTC is a bubble buster!
+- [BTC is a bubble buster](https://youtu.be/58ITeYJd0Jw)
 
-Bitcoin is an experimental digital currency that enables instant payments to
-anyone, anywhere in the world. Bitcoin uses peer-to-peer technology to operate
-with no central authority: managing transactions and issuing money are carried
-out collectively by the network. Bitcoin Core is the name of open source
-software which enables the use of this currency.
+## Journal
+1. [Blockchain-Based Distributed Patient-Centric Image Management System, IEEE](https://drive.google.com/open?id=10Uh7XxH-ICHK74cTt5dNzeKv9-ad9lE0)
+2. [Profitable Double-Spending Attacks](https://drive.google.com/open?id=1WAj_c4W9lek7FHA9FviFAlgtXCZM4Xj-)
+3. [Time-Variant Proof-of-Work Using Error-Correction Codes](https://drive.google.com/file/d/1diH-Vpw66q-zHaKqVoS8btUqCxNCvvgC/view?usp=sharing)
 
-For more information, as well as an immediately useable, binary version of
-the Bitcoin Core software, see https://bitcoincore.org/en/download/, or read the
-[original whitepaper](https://bitcoincore.org/bitcoin.pdf).
-
-License
--------
-
-Bitcoin Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
-information or see https://opensource.org/licenses/MIT.
-
-Development Process
--------------------
-
-The `master` branch is regularly built and tested, but is not guaranteed to be
-completely stable. [Tags](https://github.com/bitcoin/bitcoin/tags) are created
-regularly to indicate new official, stable release versions of Bitcoin Core.
-
-The contribution workflow is described in [CONTRIBUTING.md](CONTRIBUTING.md)
-and useful hints for developers can be found in [doc/developer-notes.md](doc/developer-notes.md).
-
-Testing
--------
-
-Testing and code review is the bottleneck for development; we get more pull
-requests than we can review and test on short notice. Please be patient and help out by testing
-other people's pull requests, and remember this is a security-critical project where any mistake might cost people
-lots of money.
-
-### Automated Testing
-
-Developers are strongly encouraged to write [unit tests](src/test/README.md) for new code, and to
-submit new unit tests for old code. Unit tests can be compiled and run
-(assuming they weren't disabled in configure) with: `make check`. Further details on running
-and extending unit tests can be found in [/src/test/README.md](/src/test/README.md).
-
-There are also [regression and integration tests](/test), written
-in Python, that are run automatically on the build server.
-These tests can be run (if the [test dependencies](/test) are installed) with: `test/functional/test_runner.py`
-
-The Travis CI system makes sure that every pull request is built for Windows, Linux, and macOS, and that unit/sanity tests are run automatically.
-
-### Manual Quality Assurance (QA) Testing
-
-Changes should be tested by somebody other than the developer who wrote the
-code. This is especially important for large or high-risk changes. It is useful
-to add a test plan to the pull request description if testing the changes is
-not straightforward.
-
-Translations
-------------
-
-Changes to translations as well as new translations can be submitted to
-[Bitcoin Core's Transifex page](https://www.transifex.com/bitcoin/bitcoin/).
-
-Translations are periodically pulled from Transifex and merged into the git repository. See the
-[translation process](doc/translation_process.md) for details on how this works.
-
-**Important**: We do not accept translation changes as GitHub pull requests because the next
-pull from Transifex would automatically overwrite them again.
-
-Translators should also subscribe to the [mailing list](https://groups.google.com/forum/#!forum/bitcoin-translators).
+## EVENT
+### 2019 DESECURE OPEN MEETING
+1. [Scalable DeSecure ECCPoW Blockchain, Heung-No Lee](https://youtu.be/qrXomkcGg58)
+2. [Introduction to ECCPoW, Sang-jun Park](https://youtu.be/PzxgEDMbung)
+3. [BitcoinECC Developement plan, Hoe-Geun Oh](https://youtu.be/V0g-tdEyqoo)
+4. [Understading mining process in py-evm](https://youtu.be/s4yrrPS4MN8)
+### 2019 ETHCON KOREA
+1. [Scalable DeSecure ECCPoW Blockchain, Heung-No Lee](https://youtu.be/VuRgKBDW4Lk)
+2. [Profitable Double-Spending Attacks, Jehyuk Jang](https://youtu.be/AmyBtUkXyVk)
+### 2019 Blockchain Consensus and Governance
+1. [블록체인 거버넌스의 이론과 실제 그리고 규제](https://youtu.be/7ujkFgsKPdY)
