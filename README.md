@@ -9,7 +9,7 @@
 ### What is the ETH-ECC?
 [Go to ETH-ECC Repository](https://github.com/cryptoecc/go-ethereum_ECC/tree/eccpow-1.9)
 ### Build private network and test
-[Go to ETH-ECC Repository](doc/Build private network and test (BitcoinECC).md)
+[Go to BUild private network and test](https://github.com/cryptoecc/ECCPoW/doc/Build private network and test (BitcoinECC).md)
 
 
 ## Lecture
