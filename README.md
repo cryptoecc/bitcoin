@@ -9,10 +9,15 @@
 ### What is the ETH-ECC?
 [Go to ETH-ECC Repository](https://github.com/cryptoecc/go-ethereum_ECC/tree/eccpow-1.9)
 ### Build private network and test
-[Go to BUild private network and test](https://github.com/cryptoecc/bitcoin_ECC/blob/master/doc/Build_private_network.md)
+[Go to Build private network and test](https://github.com/cryptoecc/bitcoin_ECC/blob/master/doc/Build_private_network.md)
 
 
 ## Lecture
+### Blockchain K-Mooc Course
+This is a Korean MooC course materials I have worked out this summer.
+(https://gist.edwith.org/bitcoin-tech/joinLectures/28000)
+
+
 ### 2019 Blockchain Special Lecture
 1. [Blockchain Economy, 이흥노](https://youtu.be/1_xI0SibZAE)
 2. [Blockchain and the Civil Society, 홍은표 판사](https://youtu.be/hQy5NXb89is)
