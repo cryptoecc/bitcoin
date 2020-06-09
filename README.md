@@ -17,6 +17,7 @@
 This is a Korean MooC course materials I have worked out 2019 summer.
 
 [블록체인과 미래사회, 이흥노](https://gist.edwith.org/bitcoin-tech/joinLectures/28000)
+
 [블록체인과 미래사회 - 강의교안, 이흥노](https://infonet.gist.ac.kr/?page_id=7619)
 
 ### 2019 Blockchain Special Lecture
