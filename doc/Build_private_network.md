@@ -295,7 +295,7 @@ We want Alice to send Bob a 0.025 BIT-BTC.
 
 We use are the commands  
 
-1) `listupspent` 2) `createrawtransaction` 3) `signrawtransaction` 4) `sendrawtransaction`
+1) `listupspent` 2) `createrawtransaction` 3) `signrawtransaction` 4) `sendrawtransaction`.
 
 
 
@@ -309,7 +309,7 @@ We use are the commands
 
 ### 4.1 listunspent
 
-Show confirmed outputs(unspend) in Alice address  `39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M`
+Show confirmed outputs(unspend) in Alice address  `39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M`.
 
 ```
 jun@ubuntu:~/bitcoin_ECC$bitcoin-cli listunspent 0 99999'["39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M"]'
@@ -358,7 +358,7 @@ The input field includes
 
 ### 4.3 signrawtransaction
 
-Check private key of `39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M` 
+Check private key of `39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M`.
 
 ```
 jun@ubuntu:~/bitcoin_ECC$bitcoin-cli dumpprivkey 39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M
@@ -366,7 +366,7 @@ jun@ubuntu:~/bitcoin_ECC$bitcoin-cli dumpprivkey 39naMhHQgXwm7CVdEaL4PGUkp4fUd
 L3n5FQiuBGtNAC47RPCKGNiADwNfeyodKfbP5zLWgd8aJKEbF2ey
 ```
 
-Signs the transaction in the serialized transaction format using private keys
+Signs the transaction in the serialized transaction format using private keys.
 
 ```
 jun@ubuntu:~/bitcoin_ECC$bitcoin-cli signrawtransactionwithkey"020000000144c4df3d038eb8c5f247e452abe2bf729a00fe13040a34beb2e0c0072895cdc10000000000ffffffff02a02526000000000017a9141a394a65ad9ebfc907bac968a4e86cbb164c9c85871009df290100000017a91458ce290b131d50345f67f0c330d900be55c5e8f58700000000"'["L3n5FQiuBGtNAC47RPCKGNiADwNfeyodKfbP5zLWgd8aJKEbF2ey"]'
@@ -399,7 +399,7 @@ Forming a new block with the created Tx included.
 
 
 
-Generate 1 block
+Generate 1 block.
 
 ```
 jun@ubuntu:~/bitcoin_ECC$bitcoin-cli generatetoaddress 1 39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M
@@ -409,7 +409,7 @@ jun@ubuntu:~/bitcoin_ECC$bitcoin-cli generatetoaddress 1 39naMhHQgXwm7CVdEaL4
 ]
 ```
 
-Get block information
+Get block information.
 
 ```
 jun@ubuntu:~/bitcoin_ECC$bitcoin-cli getblock f1d741990690527423d076fc77e8f26d26dc12b90251f912fcb3332253bdb615
@@ -439,7 +439,7 @@ jun@ubuntu:~/bitcoin_ECC$bitcoin-cli getblock f1d741990690527423d076fc77e8f26d2
 }
 ```
 
-Get transaction information
+Get transaction information.
 
 ```
 jun@ubuntu:~/bitcoin_ECC$bitcoin-cli gettransaction f2fc88a8bc534cfb7e6bc8e7c7d944f440a6612a8b7d34c166ca76765e168c56
