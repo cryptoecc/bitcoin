@@ -14,8 +14,8 @@
 
 ## Lecture
 ### Blockchain K-Mooc Course
-This is a Korean MooC course materials I have worked out this summer.
-(https://gist.edwith.org/bitcoin-tech/joinLectures/28000)
+This is a Korean MooC course materials I have worked out 2019 summer.
+[Blockchain Economy, 이흥노](https://gist.edwith.org/bitcoin-tech/joinLectures/28000)
 
 
 ### 2019 Blockchain Special Lecture
