@@ -1,4 +1,4 @@
-# Build private network and test (BitcoinECC)
+# Build private network and test (BIT-ECC)
 
 Writer : Hyunjun Jung(정현준)
 
@@ -8,16 +8,24 @@ Github for this example : https://github.com/cryptoecc/bitcoin_ECC
 
 For more information : [INFONET](https://infonet.gist.ac.kr/)
 
-Today we will build our own private network and test it is working well. However, we will use only 1 node for today. Let's try multi-node later.
+BIT-ECC is a new bitcoin core program. BIT-ECC replaced bitcoin consensus with ECCPoW.
 
-## Environment
+Today we will build our own private network and test it is working well. However, we will use only 1 node for today. We will try multi-node example later on.
 
-- Ubuntu 18.04.2 LTS or later (http://old-releases.ubuntu.com/releases/18.04.2/)
-- Git :  https://github.com/cryptoecc/bitcoin_ECC (ver0.1.2)
+## 1. Environment
+
+The BIT-ECC package works made the following environment.
+
+- OS: Ubuntu 18.04.2 LTS or later (http://old-releases.ubuntu.com/releases/18.04.2/)
+- Git location of the package:  (https://github.com/cryptoecc/bitcoin_ECC, ver0.1.2)
 
 
 
-Step1 : Install of build tool
+The following 8 steps are to download, install, and run BIT-ECC deamon on your computer.
+
+
+
+### 1.1 Install of build tool
 
 ```
 sudo apt-get install build-essential libtool autotools-dev automake pkg-config bsdmainutils python3
@@ -29,7 +37,7 @@ sudo apt-get install libqrencode-dev autoconf openssl libssl-dev libevent-dev li
 
 
 
-Step2 : Install of boost labrary
+### 1.2 Install of boost labrary
 
 ```
 sudo apt-get install libboost-all-dev
@@ -37,7 +45,7 @@ sudo apt-get install libboost-all-dev
 
 
 
-Step3 : Install of berkeley DB
+### 1.3 Install of berkeley DB
 
 ```
 sudo apt-get install software-properties-common
@@ -48,7 +56,7 @@ sudo apt-get install libdb4.8-dev libdb4.8++-dev
 
 
 
-Step4 : Install of qt-wallet
+### 1.4 Install of qt-wallet
 
 ```
 sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev
@@ -56,7 +64,7 @@ sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-d
 
 
 
-Step5 : Install of git
+### 1.5 Install of git
 
 ```
 sudo apt-get install git
@@ -64,7 +72,7 @@ sudo apt-get install git
 
 
 
-Step6 : ECCPoW blockchain code download and version change
+### 1.6 ECCPoW blockchain code download and version change
 
 ```
 git clone https://github.com/cryptoecc/bitcoin_ECC.git
@@ -74,7 +82,7 @@ git checkout ecc-0.1.2
 
 
 
-Step7 : Source code build
+### 1.7 Source code build
 
 ```
 cd bitcoin_ECC
@@ -86,7 +94,7 @@ sudo make install
 
 
 
-Step8 : Execute bitcoin core
+### 1.8 Execute bitcoin core
 
 ```
 bitcoind -txindex -printtoconsole -rpcallowip=0.0.0.0/0 -rpcbind=0.0.0.0
@@ -100,13 +108,13 @@ bitcoind -txindex -daemon
 
 
 
-## ECCPoW Blockchain Parameters
+## 2. BIT-ECC Parameters
 
-The ECCPoW block chain can build Mainnet, Testnet, and Regest networks. You can set up private network using the CMainParams, CTestNetParams, CRegTestParams class of "chainparams.cpp". We will test the private network using mainnet.
+The BIT-ECC can be configured to build Mainnet, Testnet, and Regest networks. You can set up a private network using the CMainParams, CTestNetParams, CRegTestParams classes defined in "chainparams.cpp". We will test the private network using the mainnet option in this example.
 
 
 
-chainparams.cpp source code
+The `chainparams.cpp` source code is as follws:
 
 ```
 class CMainParams : public CChainParams {
@@ -152,29 +160,18 @@ ffffffffffffffff");
 
 
 
-## Test private network
+## 3. Test Private Network
 
-***Now we can run our private network!***
+We aim to BIT-ECC mainnet in the local network.
 
-open terminal in `/bitcoin_ECC` and follow it!
+Open a new terminal under `/bitcoin_ECC`  directory. Do the following procedure in the terminal.
+
+
+
+### 3.1 Execute BIT-ECC 
 
 ```
 jun@ubuntu:~/bitcoin_ECC$ bitcoind -txindex -daemon
-
-mainnet with level = 1
-set is constructed from 10 to 22 with step 2
-n : 32	 wc : 3	 wr : 4
-mainnet n: 399 Hash: 0ccc07b781737bf3c901307dd92ed0548215b745b38daee5fdbb4f042dc4885c
-
-testnet with level = 40
-set is constructed from 30 to 30 with step 2
-n : 60	 wc : 3	 wr : 4
-testnet n: 47471 Hash: 83432832323855c30a104d61467ecb339ffa988cb8abe420c67acb95667bdd42
-
-regtest with level = 30
-set is constructed from 18 to 42 with step 2
-n : 60	 wc : 3	 wr : 4
-regtest n: 746 Hash: db20aafd0c626db7cf83b4b3d9ba0a024a862fdff203074e06aaa64e31619461
 
 mainnet with level = 1
 set is constructed from 10 to 22 with step 2
@@ -185,29 +182,29 @@ Bitcoin server starting
 
 
 
-Now let's test our private network
+### 3.2 Get blockcount
 
 ```
 jun@ubuntu:~/bitcoin_ECC$ bitcoin-cli getblockcount
 0
 ```
 
-`bitcoin-cli getblockcount` check the number of blocks. We just generate this network. Therefore there is 0 block. 
+The command `getblockcount` checks the number of blocks. We have just generated this network. There is no block generated yet. 
 
 
 
-Let's generate account
+### 3.3 Generate an account
 
 ```
 jun@ubuntu:~/bitcoin_ECC$ bitcoin-cli getnewaddress
 39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M
 ```
 
-We just generated the address of `39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M`. 
+We have just generated the new address, `39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M`. 
 
 
 
-Let's generate block
+### 3.4 Generate ten new blocks
 
 ```
 jun@ubuntu:~/bitcoin_ECC$ bitcoin-cli generatetoaddress 10 9naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M
@@ -225,7 +222,9 @@ jun@ubuntu:~/bitcoin_ECC$ bitcoin-cli generatetoaddress 10 9naMhHQgXwm7CVdEaL4PG
 ]
 ```
 
-Let's check blockchain information
+
+
+### 3.5 Check blockchain information
 
 ```
 jun@ubuntu:~/bitcoin_ECC$ bitcoin-cli getblockchaininfo
@@ -283,28 +282,34 @@ jun@ubuntu:~/bitcoin_ECC$ bitcoin-cli getblockchaininfo
 
 ```
 
-Let's check balance
-
 ```
 jun@ubuntu:~/bitcoin_ECC$ bitcoin-cli getbalance
 450.00000000
 ```
 
-## Send raw transaction ECCPoW
+
+
+## 4. Send Transaction
+
+We want Alice to send Bob a 0.025 BIT-BTC. 
+
+We use are the commands  
+
+1) `listupspent` 2) `createrawtransaction` 3) `signrawtransaction` 4) `sendrawtransaction`
 
 
 
 ### Given:
 
-- A ECCPoW address : 39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M
-- B ECCPoW address : 345g89pujpmSSFuCWeizqbvVe92pRWZarB
-- Send to B : 0.025 mBTC
+- Alice is the payer. Alice address : `39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M`
+- Bob is the payee. Bob address : `345g89pujpmSSFuCWeizqbvVe92pRWZarB`
+- Alice send to Bob : 0.025 BIT-BTC
 
 
 
-### Step 1) listunspent
+### 4.1 listunspent
 
-Show confirmed outputs(unspend) in wallet.
+Show confirmed outputs(unspend) in Alice address  `39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M`
 
 ```
 jun@ubuntu:~/bitcoin_ECC$bitcoin-cli listunspent 0 99999'["39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M"]'
@@ -327,11 +332,9 @@ jun@ubuntu:~/bitcoin_ECC$bitcoin-cli listunspent 0 99999'["39naMhHQgXwm7CVdEa
   ...
 ```
 
-check txid `c1cd952807c0e0b2be340a0413fe009a72bfe2ab52e447f2c5b88e033ddfc444`
 
 
-
-### Step 2) createrawtransaction
+### 4.2 createrawtransaction
 
 ```
 jun@ubuntu:~/bitcoin_ECC$bitcoin-cli createrawtransaction '[{"txid":"c1cd952807c0e0b2be340a0413fe009a72bfe2ab52e447f2c5b88e033ddfc444","vout" : 0}]''{"345g89pujpmSSFuCWeizqbvVe92pRWZarB":0.025,"39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M":49.9745}'
@@ -339,11 +342,23 @@ jun@ubuntu:~/bitcoin_ECC$bitcoin-cli createrawtransaction '[{"txid":"c1cd95280
 020000000144c4df3d038eb8c5f247e452abe2bf729a00fe13040a34beb2e0c0072895cdc10000000000ffffffff02a02526000000000017a9141a394a65ad9ebfc907bac968a4e86cbb164c9c85871009df290100000017a91458ce290b131d50345f67f0c330d900be55c5e8f58700000000
 ```
 
+The input field includes 
+
+​	1) Txid: `c1cd952807c0e0b2be340a0413fe009a72bfe2ab52e447f2c5b88e033ddfc444`
+
+​	2) Recipient address :  `39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M`
+
+​	3) Amount to send : 0.025
+
+​	4) Sender address : `345g89pujpmSSFuCWeizqbvVe92pRWZarB`
+
+​	5) Amount change : 49.9745
 
 
-### Step 3) signrawtransaction
 
-check private key of `39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M` (A address)
+### 4.3 signrawtransaction
+
+Check private key of `39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M` 
 
 ```
 jun@ubuntu:~/bitcoin_ECC$bitcoin-cli dumpprivkey 39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M
@@ -351,7 +366,7 @@ jun@ubuntu:~/bitcoin_ECC$bitcoin-cli dumpprivkey 39naMhHQgXwm7CVdEaL4PGUkp4fUd
 L3n5FQiuBGtNAC47RPCKGNiADwNfeyodKfbP5zLWgd8aJKEbF2ey
 ```
 
-signs the transaction in the serialized transaction format using private keys
+Signs the transaction in the serialized transaction format using private keys
 
 ```
 jun@ubuntu:~/bitcoin_ECC$bitcoin-cli signrawtransactionwithkey"020000000144c4df3d038eb8c5f247e452abe2bf729a00fe13040a34beb2e0c0072895cdc10000000000ffffffff02a02526000000000017a9141a394a65ad9ebfc907bac968a4e86cbb164c9c85871009df290100000017a91458ce290b131d50345f67f0c330d900be55c5e8f58700000000"'["L3n5FQiuBGtNAC47RPCKGNiADwNfeyodKfbP5zLWgd8aJKEbF2ey"]'
@@ -362,11 +377,11 @@ jun@ubuntu:~/bitcoin_ECC$bitcoin-cli signrawtransactionwithkey"020000000144c4df
 }
 ```
 
-the signrawtransaction command returns another hex-encoded raw transaction.
+The command `signrawtransaction`  returns another hex-encoded raw transaction.
 
 
 
-### Step 4) sendrawtransaction
+### 4.4 sendrawtransaction
 
 ```
 jun@ubuntu:~/bitcoin_ECC$bitcoin-cli sendrawtransaction0200000000010144c4df3d038eb8c5f247e452abe2bf729a00fe13040a34beb2e0c0072895cdc10000000017160014869c8d0d64aa4aba5a8336821384b3c8e8631026ffffffff02a02526000000000017a9141a394a65ad9ebfc907bac968a4e86cbb164c9c85871009df290100000017a91458ce290b131d50345f67f0c330d900be55c5e8f58702473044022075b8645993714ba61c63a177437c3146145a9daebf25f93324eadf767e0277cd02202648a4817686bdddb57944c80e9a0a3a4daeb8defd59d4fc1d118fd814392909012103290574714e059efbb6248b7058901639932d4d32a6f3682cf21f0dd74bf4bf4100000000
@@ -374,13 +389,17 @@ jun@ubuntu:~/bitcoin_ECC$bitcoin-cli sendrawtransaction0200000000010144c4df3d03
 f2fc88a8bc534cfb7e6bc8e7c7d944f440a6612a8b7d34c166ca76765e168c56
 ```
 
-The command sendrawtransaction returns a transaction hash (txid) as it submits the transaction on the network.
+The command `sendrawtransaction` returns a transaction hash (txid) as it submits the transaction on the network.
 
 
 
-### Step 5) Insert transaction to block
+### 4.5 Verification of the issued transaction in a block
 
-generate 1 block(insert transaction)
+Forming a new block with the created Tx included.
+
+
+
+Generate 1 block
 
 ```
 jun@ubuntu:~/bitcoin_ECC$bitcoin-cli generatetoaddress 1 39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M
@@ -390,7 +409,7 @@ jun@ubuntu:~/bitcoin_ECC$bitcoin-cli generatetoaddress 1 39naMhHQgXwm7CVdEaL4
 ]
 ```
 
-get block information
+Get block information
 
 ```
 jun@ubuntu:~/bitcoin_ECC$bitcoin-cli getblock f1d741990690527423d076fc77e8f26d26dc12b90251f912fcb3332253bdb615
@@ -420,7 +439,7 @@ jun@ubuntu:~/bitcoin_ECC$bitcoin-cli getblock f1d741990690527423d076fc77e8f26d2
 }
 ```
 
-get transaction information
+Get transaction information
 
 ```
 jun@ubuntu:~/bitcoin_ECC$bitcoin-cli gettransaction f2fc88a8bc534cfb7e6bc8e7c7d944f440a6612a8b7d34c166ca76765e168c56
@@ -474,3 +493,9 @@ jun@ubuntu:~/bitcoin_ECC$bitcoin-cli gettransaction f2fc88a8bc534cfb7e6bc8e7c7d
 "hex":"0200000000010144c4df3d038eb8c5f247e452abe2bf729a00fe13040a34beb2e0c0072895cdc10000000017160014869c8d0d64aa4aba5a8336821384b3c8e8631026ffffffff02a02526000000000017a9141a394a65ad9ebfc907bac968a4e86cbb164c9c85871009df290100000017a91458ce290b131d50345f67f0c330d900be55c5e8f58702473044022075b8645993714ba61c63a177437c3146145a9daebf25f93324eadf767e0277cd02202648a4817686bdddb57944c80e9a0a3a4daeb8defd59d4fc1d118fd814392909012103290574714e059efbb6248b7058901639932d4d32a6f3682cf21f0dd74bf4bf4100000000"
 }
 ```
+
+Please Note. There are no leading zeros in the block hash because ECCPoW is used.
+
+
+
+End.
