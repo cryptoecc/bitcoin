@@ -4,6 +4,8 @@ Writer : Hyunjun Jung(정현준)
 
 Email : junghj85@gist.ac.kr / junghj85@gmail.com
 
+Contact PI: Proof. Heung-No Lee, heungno@gist.ac.kr
+
 Github for this example : https://github.com/cryptoecc/bitcoin_ECC
 
 For more information : [INFONET](https://infonet.gist.ac.kr/)
