@@ -1,8 +1,6 @@
 # Build private network and test (BIT-ECC)
 
-Writer: Hyunjun Jung(정현준)
-
-Email: junghj85@gist.ac.kr / junghj85@gmail.com
+Writer: Hyunjun Jung, junghj85@gist.ac.kr
 
 Contact PI: Proof. Heung-No Lee, heungno@gist.ac.kr
 
