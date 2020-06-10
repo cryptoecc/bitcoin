@@ -1,4 +1,4 @@
-# Build private network and test (BIT-ECC)
+# Build private network and test (BTC-ECC)
 
 Writer: Hyunjun Jung, junghj85@gist.ac.kr
 
@@ -8,20 +8,20 @@ Github for this example: https://github.com/cryptoecc/bitcoin_ECC
 
 For more information: [INFONET](https://infonet.gist.ac.kr/)
 
-BIT-ECC is a new bitcoin core program. BIT-ECC replaced bitcoin consensus with ECCPoW.
+BTC-ECC is a new bitcoin core program. BTC-ECC replaced bitcoin consensus with ECCPoW.
 
 Today we will build our own private network and test it is working well. However, we will use only 1 node for today. We will try a multi-node example later on.
 
 ## 1. Environment
 
-The BIT-ECC package works made the following environment.
+The BTC-ECC package works made the following environment.
 
 - OS: Ubuntu 18.04.2 LTS or later (http://old-releases.ubuntu.com/releases/18.04.2/)
 - Git location of the package:  (https://github.com/cryptoecc/bitcoin_ECC, ver0.1.2)
 
 
 
-The following 8 steps are to download, install, and run BIT-ECC daemon on your computer.
+The following 8 steps are to download, install, and run BTC-ECC daemon on your computer.
 
 
 
@@ -108,9 +108,9 @@ bitcoind -txindex -daemon
 
 
 
-## 2. BIT-ECC Parameters
+## 2. BTC-ECC Parameters
 
-The BIT-ECC can be configured to build Mainnet, Testnet, and Regtest networks. You can set up a private network using the CMainParams, CTestNetParams, CRegTestParams classes defined in "chainparams.cpp". We will test the private network using the Mainnet option in this example.
+The BTC-ECC can be configured to build Mainnet, Testnet, and Regtest networks. You can set up a private network using the CMainParams, CTestNetParams, CRegTestParams classes defined in "chainparams.cpp". We will test the private network using the Mainnet option in this example.
 
 
 
@@ -162,13 +162,13 @@ ffffffffffffffff");
 
 ## 3. Test Private Network
 
-We aim to BIT-ECC Mainnet in the local network.
+We aim to BTC-ECC Mainnet in the local network.
 
 Open a new terminal under `/bitcoin_ECC`  directory. Do the following procedure in the terminal.
 
 
 
-### 3.1 Execute BIT-ECC 
+### 3.1 Execute BTC-ECC 
 
 ```
 jun@ubuntu:~/bitcoin_ECC$ bitcoind -txindex -daemon
@@ -291,7 +291,7 @@ jun@ubuntu:~/bitcoin_ECC$ bitcoin-cli getbalance
 
 ## 4. Send Transaction
 
-We want Alice to send Bob a 0.025 BIT-BTC. 
+We want Alice to send Bob a 0.025 BTC-BTC. 
 
 We use are the commands  
 
@@ -303,7 +303,7 @@ We use are the commands
 
 - Alice is the payer. Alice address : `39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M`
 - Bob is the payee. Bob address : `345g89pujpmSSFuCWeizqbvVe92pRWZarB`
-- Alice sends to Bob : 0.025 BIT-BTC
+- Alice sends to Bob : 0.025 BTC-BTC
 
 
 
