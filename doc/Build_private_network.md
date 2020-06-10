@@ -1,18 +1,18 @@
 # Build private network and test (BIT-ECC)
 
-Writer : Hyunjun Jung(정현준)
+Writer: Hyunjun Jung(정현준)
 
-Email : junghj85@gist.ac.kr / junghj85@gmail.com
+Email: junghj85@gist.ac.kr / junghj85@gmail.com
 
 Contact PI: Proof. Heung-No Lee, heungno@gist.ac.kr
 
-Github for this example : https://github.com/cryptoecc/bitcoin_ECC
+Github for this example: https://github.com/cryptoecc/bitcoin_ECC
 
-For more information : [INFONET](https://infonet.gist.ac.kr/)
+For more information: [INFONET](https://infonet.gist.ac.kr/)
 
 BIT-ECC is a new bitcoin core program. BIT-ECC replaced bitcoin consensus with ECCPoW.
 
-Today we will build our own private network and test it is working well. However, we will use only 1 node for today. We will try multi-node example later on.
+Today we will build our own private network and test it is working well. However, we will use only 1 node for today. We will try a multi-node example later on.
 
 ## 1. Environment
 
@@ -23,7 +23,7 @@ The BIT-ECC package works made the following environment.
 
 
 
-The following 8 steps are to download, install, and run BIT-ECC deamon on your computer.
+The following 8 steps are to download, install, and run BIT-ECC daemon on your computer.
 
 
 
@@ -112,11 +112,11 @@ bitcoind -txindex -daemon
 
 ## 2. BIT-ECC Parameters
 
-The BIT-ECC can be configured to build Mainnet, Testnet, and Regest networks. You can set up a private network using the CMainParams, CTestNetParams, CRegTestParams classes defined in "chainparams.cpp". We will test the private network using the mainnet option in this example.
+The BIT-ECC can be configured to build Mainnet, Testnet, and Regtest networks. You can set up a private network using the CMainParams, CTestNetParams, CRegTestParams classes defined in "chainparams.cpp". We will test the private network using the Mainnet option in this example.
 
 
 
-The `chainparams.cpp` source code is as follws:
+The `chainparams.cpp` source code is as follows:
 
 ```
 class CMainParams : public CChainParams {
@@ -164,7 +164,7 @@ ffffffffffffffff");
 
 ## 3. Test Private Network
 
-We aim to BIT-ECC mainnet in the local network.
+We aim to BIT-ECC Mainnet in the local network.
 
 Open a new terminal under `/bitcoin_ECC`  directory. Do the following procedure in the terminal.
 
@@ -305,7 +305,7 @@ We use are the commands
 
 - Alice is the payer. Alice address : `39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M`
 - Bob is the payee. Bob address : `345g89pujpmSSFuCWeizqbvVe92pRWZarB`
-- Alice send to Bob : 0.025 BIT-BTC
+- Alice sends to Bob : 0.025 BIT-BTC
 
 
 
@@ -360,7 +360,7 @@ The input field includes
 
 ### 4.3 signrawtransaction
 
-Check private key of `39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M`.
+Check the private key of `39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M`.
 
 ```
 jun@ubuntu:~/bitcoin_ECC$bitcoin-cli dumpprivkey 39naMhHQgXwm7CVdEaL4PGUkp4fUdHX14M
