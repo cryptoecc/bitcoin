@@ -77,7 +77,7 @@ sudo apt-get install git
 ```
 git clone https://github.com/cryptoecc/bitcoin_ECC.git
 cd bitcoin_ECC
-git checkout ecc-0.1.2
+git checkout ecc-0.1.3
 ```
 
 
