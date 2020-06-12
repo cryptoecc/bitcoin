@@ -17,7 +17,7 @@ Today we will build our own private network and test it is working well. However
 The BTC-ECC package works made the following environment.
 
 - OS: Ubuntu 18.04.2 LTS or later (http://old-releases.ubuntu.com/releases/18.04.2/)
-- Git location of the package:  (https://github.com/cryptoecc/bitcoin_ECC, ver0.1.2)
+- Git location of the package:  (https://github.com/cryptoecc/bitcoin_ECC, ver0.1.3)
 
 
 
