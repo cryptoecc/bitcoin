@@ -97,12 +97,6 @@ sudo make install
 ### 1.8 Execute bitcoin core
 
 ```
-bitcoind -txindex -printtoconsole -rpcallowip=0.0.0.0/0 -rpcbind=0.0.0.0
-```
-
-or
-
-```
 bitcoind -txindex -daemon
 ```
 
