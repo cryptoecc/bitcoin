@@ -146,8 +146,9 @@ public:
         std::cout << "mainnet n: " << genesis.nNonce << " Hash: " << genesis.GetHash().ToString() << std::endl;
 #endif
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("b77abb03a0a8a4f23a7380bf655af8312c4769c64fcbf335a08d598b13368f22"));
-        assert(genesis.hashMerkleRoot == uint256S("15d2f927fe3eafe88ce0b4ccf267727ed306295051339a16e0b95067e65bead8"));        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,0);
+        assert(consensus.hashGenesisBlock == uint256S("0ccc07b781737bf3c901307dd92ed0548215b745b38daee5fdbb4f042dc4885c"));
+        assert(genesis.hashMerkleRoot == uint256S("15d2f927fe3eafe88ce0b4ccf267727ed306295051339a16e0b95067e65bead8"));        
+	    base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,0);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,5);
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,128);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
@@ -167,7 +168,7 @@ public:
 
         checkpointData = {
             {
-                { 0, uint256S("3ed33a90a761ef8486a4b7b41842fe3d6a35a31d5094373f271bcaec197ed100")},
+                { 0, uint256S("0ccc07b781737bf3c901307dd92ed0548215b745b38daee5fdbb4f042dc4885c")},
             }
         };
 
@@ -179,7 +180,7 @@ public:
         };
 
         /* disable fallback fee on mainnet */
-        m_fallback_fee_enabled = true;
+        m_fallback_fee_enabled = false;
     }
 };
 
