@@ -15,7 +15,7 @@ Today we will build our own private network and test it is working well. However
 ## VMWare ECCPoW Ubuntu 
 Plz. Use the vmware file temporarily. (2G ram ver)
 
-file1 : https://drive.google.com/file/d/1-lsbqV8R03m7cjPb-Om4ietIIo2uOiO-/view?usp=sharing
+file1 : https://drive.google.com/file/d/1-lsbqV8R03m7cjPb-Om4ietIIo2uOiO-/view?usp=sharing (password: wjdguswns)
 
 ## 1. Environment
 
