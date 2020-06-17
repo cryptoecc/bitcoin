@@ -13,12 +13,9 @@ BTC-ECC is a new bitcoin core program. BTC-ECC replaced bitcoin consensus with E
 Today we will build our own private network and test it is working well. However, we will use only 1 node for today. We will try a multi-node example later on.
 
 ## VMWare ECCPoW Ubuntu 
-Plz. Use the vmware file temporarily.
+Plz. Use the vmware file temporarily. (2G ram ver)
 
-file1 : https://drive.google.com/open?id=1hMuZuA4zog94xCYOV6TPn709NjD66Z_d
-
-file2 : https://drive.google.com/open?id=1NaBTscvI1pZMkxKB9_vkAP07EQry15cK
-
+file1 : https://drive.google.com/file/d/1-lsbqV8R03m7cjPb-Om4ietIIo2uOiO-/view?usp=sharing
 
 ## 1. Environment
 
