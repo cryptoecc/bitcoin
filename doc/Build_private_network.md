@@ -22,7 +22,7 @@ file1 : https://drive.google.com/file/d/1-lsbqV8R03m7cjPb-Om4ietIIo2uOiO-/view?u
 The BTC-ECC package works made the following environment.
 
 - OS: Ubuntu 18.04 LTS (https://releases.ubuntu.com/18.04/)
-- Git location of the package:  (https://github.com/rekyungmin/bitcoin_ECC/tree/ecc-0.1.2, ver0.1.2)
+- Git location of the package:  (https://github.com/cryptoecc/bitcoin_ECC/tree/ecc-0.1.2, ver0.1.2)
 
 
 
