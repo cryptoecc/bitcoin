@@ -4,9 +4,9 @@
 ## ECCPoW
 ### What is the ECCPoW?
 [Go to ECCPoW Repository](https://github.com/cryptoecc/ECCPoW)
-### What is the BTC-ECC?
+### What is the ECCBTC?
 [Go to BTC-ECC Repository](https://github.com/cryptoecc/bitcoin_ECC/tree/ecc-0.1.2)
-### What is the ETH-ECC?
+### What is the ECCETH?
 [Go to ETH-ECC Repository](https://github.com/cryptoecc/go-ethereum_ECC/tree/eccpow-1.9)
 ### Build private network and test
 [Go to Build private network and test](https://github.com/cryptoecc/bitcoin_ECC/blob/master/doc/Build_private_network.md)
