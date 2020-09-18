@@ -103,7 +103,8 @@ $ bitcoind -txindex -daemon
 
 The BTC-ECC can be configured to build Mainnet, Testnet, and Regtest networks. You can set up a private network using the CMainParams, CTestNetParams, CRegTestParams classes defined in "chainparams.cpp". We will test the private network using the Mainnet option in this example.
 
-% The PowNoretting function in ECCPoW version (0.1.2) does not work. Please the following settings: concensus.fPowNoRetargeting = false;
+% The PowNoretting function in ECCPoW version (0.1.2) does not work. 
+Please the following settings: concensus.fPowNoRetargeting = false;
 
 
 The `chainparams.cpp` source code is as follows:
