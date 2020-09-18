@@ -498,7 +498,7 @@ Please Note. There are no leading zeros in the block hash because ECCPoW is used
 
 ```shell
 $ bitcoin-cli addnode <ip_address> <add / remove / onetry>
-
+```
 
 
 
