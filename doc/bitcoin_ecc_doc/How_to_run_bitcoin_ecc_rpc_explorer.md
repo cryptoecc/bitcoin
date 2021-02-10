@@ -47,7 +47,7 @@ Access to http://127.0.0.1:8080
 $ bitcoin-ecc-rpc-explorer --host 0.0.0.0 --port 8080 --bitcoind-port 9776
 ```
 
-Access to http://<IP address>:8080 
+Access to http://IP address:8080 
 
 <hr>
 
